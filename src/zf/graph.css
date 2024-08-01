@@ -1,0 +1,34 @@
+@media (max-width: 800px) {
+    .zf_graph {
+      max-height: 100vh;
+    }
+  }
+  
+  @media (min-width: 800px) and (max-width: 1400px) {
+    .zf_graph {
+      max-height: 75vh;
+    }
+  }
+  
+  @media (min-width: 1400px) {
+    .zf_graph {
+      max-height: 50vh;
+    }
+  }
+  
+  .zf_graph {
+    aspect-ratio: 1;
+    cursor: grab;
+    display: block;
+    margin: auto;
+    width: 100%;
+  }
+  
+  .zf_graph_container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .zf_graph:active {
+    cursor: grabbing;
+  }

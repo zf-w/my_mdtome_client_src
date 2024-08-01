@@ -1,0 +1,92 @@
+<html lang="en" id="$root">
+<head>
+<meta charset="UTF-8">
+<title>Zhifeng</title>
+<meta name="description" content="This is a description placeholder.">
+<meta name="author" content="Zhifeng">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/src/base.css">
+<link rel="stylesheet" href="/src/con4/board.css">
+<link rel="stylesheet" href="/src/zf/fun/galaxy.css">
+<script src="/src/prelude.js"></script>
+<script type="importmap">
+{"imports":{
+"con4_board":"/src/con4/board.js",
+"three":"/src/three.js",
+"san":"/src/san.js",
+"zf_fun_galaxy":"/src/zf/fun/galaxy.js",
+"con4":"/src/con4.js"}}
+</script>
+</head>
+<body>
+<canvas id="$root-canvas"></canvas>
+<section id="$btnbar">
+<div class="icon" id="$menu-icon">
+<div class="menu-bar1"></div>
+<div class="menu-bar2"></div>
+<div class="menu-bar3"></div>
+</div>
+</section>
+<section id="$left-nav">
+<div class="nav-root">
+<a href="/">Zhifeng</a>
+</div>
+</section>
+<section id="$wrapper">
+<main id="$wrapper-content"><section id="$custom_0" class="zf_fun_galaxy"></section>
+<h1>Lorem ipsum odor amet</h1>
+<p>Lorem ipsum odor amet, consectetuer adipiscing elit. Per ullamcorper euismod curae rhoncus malesuada feugiat litora. Turpis fusce euismod habitant ut ullamcorper faucibus primis quisque euismod! Parturient fusce porttitor ultrices tristique erat. Netus nullam maximus sodales netus interdum nam felis nam. Tempor dignissim penatibus magna ligula; bibendum lorem urna. Ad proin massa consectetur id arcu quisque dictumst hac taciti. Purus senectus nulla nisl cras cursus fames. Magna vulputate facilisis metus facilisi quam fusce quam.</p>
+<h2>Tortor tellus taciti</h2>
+<p>Tortor tellus taciti tincidunt conubia sem. Ex habitant laoreet senectus luctus scelerisque. Ut ornare suscipit augue netus urna praesent pharetra. Rhoncus nisi tempor diam porta purus vestibulum. Odio eros parturient posuere venenatis; amet posuere rutrum. Ullamcorper morbi porta ex, tincidunt fringilla maximus justo. Vitae himenaeos auctor lectus felis facilisi. Placerat lacus urna tempor tortor ligula viverra risus. Fames blandit sem natoque convallis arcu est semper sagittis curabitur.</p>
+<h1>Lacus varius bibendum</h1>
+<p>Lacus varius bibendum himenaeos leo euismod suscipit nisl. Turpis mollis parturient mollis consequat sapien dapibus interdum. Etiam pulvinar massa mollis amet metus condimentum pulvinar. Maximus eros cras et gravida; porta magnis. Iaculis maximus eu parturient fames, sociosqu nisl elit. Quisque aliquam ante enim sapien scelerisque. Dolor tempor montes condimentum quis convallis eleifend ipsum.</p>
+<h1>Quam eleifend etiam morbi</h1>
+<p>Quam eleifend etiam morbi in etiam enim eu? Congue vehicula sem dui facilisi ante. Viverra in in habitasse sit taciti. Consectetur aliquam convallis libero turpis donec volutpat enim duis nullam. Libero sem mi porttitor nisi egestas. Parturient pulvinar ac tortor semper rutrum varius et. Nisl sem curae curabitur nec pellentesque efficitur vitae.</p>
+<h2>Maecenas commodo dolor rhoncus</h2>
+<blockquote>
+<p>Lorem ipsum odor amet, consectetuer adipiscing elit. In ante et cras elementum vivamus, curabitur gravida auctor. Rutrum mi litora vulputate tempor facilisi cursus neque donec.</p>
+</blockquote>
+<section id="$custom_1" class="con4_board"></section>
+<p>Maecenas commodo dolor rhoncus lacinia porttitor. Nostra cursus orci vitae viverra diam varius ad. Pellentesque vehicula facilisi himenaeos; rhoncus magna himenaeos quis. Enim nam aliquet penatibus efficitur auctor vulputate fames. Egestas purus nunc ad eu sodales sem. Lorem tristique odio pulvinar quam faucibus felis sed. Commodo ante lectus amet blandit in dui commodo augue purus. Magnis phasellus maecenas vitae cursus sed; imperdiet metus scelerisque primis. Potenti facilisi lorem pellentesque imperdiet lacus mattis risus.</p>
+</main>
+<section>
+<script>
+const menu_icon_elem = document.getElementById("$menu-icon")
+menu_icon_elem.addEventListener("click", () => {
+    const html = document.getElementById("$root")
+    if (html) {
+        if (html.classList.contains(SIDEBAR_ON_CLASS)) {
+        localStorage.setItem(SIDEBAR_STORAGE_KEY, "off")
+        } else {
+        localStorage.setItem(SIDEBAR_STORAGE_KEY, "on")
+        }
+        html.classList.toggle(SIDEBAR_ON_CLASS)
+    }
+})
+</script>
+<script type="module">
+import * as con4_board from "con4_board"
+import * as three from "three"
+import * as san from "san"
+import * as zf_fun_galaxy from "zf_fun_galaxy"
+import * as con4 from "con4"
+zf_fun_galaxy.render("$custom_0", {
+    "galaxy_param": {
+        "branches": 4
+    },
+    "camera_param": {
+        "position": {
+            "x": 0,
+            "y": 3,
+            "z": 0
+        }
+    }
+})
+con4_board.render("$custom_1", {
+    "w":7,
+    "h":6,
+    "actions": "1231"
+})
+</script>
+</body>
+</html>

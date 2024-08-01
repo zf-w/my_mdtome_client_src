@@ -1,0 +1,20 @@
+{
+    "book_dir": ".",
+    "src_dir":"../src",
+    "web_root_out_dir": "..",
+    "web_content_base_url": "",
+    "web_source_base_url": "/src",
+
+    "lang_strings": ["en"],
+
+    "exts": {
+        "three": [],
+        "san": ["three"],
+        "zf_graph": ["three", "san"],
+        "zf_fun_galaxy": ["three", "san"],
+        "con4": [],
+        "con4_board": []
+    },
+    "pre_script_url_strings":["/prelude.js"],
+    "style_url_strings":["/base.css"]
+}

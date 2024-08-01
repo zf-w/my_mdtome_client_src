@@ -1,0 +1,51 @@
+.con4_board_p0 {
+    width: 100%;
+    stroke: var(--bg);
+    dominant-baseline: middle;
+    user-select: none;
+    text-anchor: middle;
+    font: 80% sans-serif;
+}
+
+.con4_board_p1 {
+    width: 100%;
+    dominant-baseline: middle;
+    user-select: none;
+    text-anchor: middle;
+    font: 80% sans-serif;
+}
+
+.con4_board {
+    display: block;
+    margin: 5% auto;
+    position: relative;
+}
+
+.con4_board_inner {
+    border: 2px solid var(--fg);
+    border-radius: 2%;
+    display: block;
+    position: relative;
+}
+
+@media (max-width: 800px) {
+    .con4_board {
+        aspect-ratio: 1.5;
+        padding: 3% 10%;
+        width: 100%;
+    }
+}
+  
+@media (min-width: 800px) and (max-width: 1400px) {
+    .con4_board {
+        aspect-ratio: 2;
+        padding: 3% 20%;
+    }
+}
+  
+@media (min-width: 1400px) {
+    .con4_board {
+        aspect-ratio: 3;
+        padding: 3% 30%;
+    }
+}
