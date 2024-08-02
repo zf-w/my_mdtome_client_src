@@ -1,3 +1,10 @@
+.con4_board_p {
+    dominant-baseline: middle;
+    font: 80% sans-serif;
+    user-select: none;
+    width: 100%;
+}
+
 .con4_board_p0 {
     width: 100%;
     stroke: var(--bg);

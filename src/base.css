@@ -168,10 +168,12 @@ body {
   transform: translateX(-100%);
   /* Start off-screen */
   transition: transform 0.5s ease; /* Animation */
-  z-index: 1;
+
+  -webkit-user-select: none;
   user-select: none;
   overflow: clip;
-  border-right: 1px solid var(--sidebar-fg);
+  border-right: 1px solid var(--sidebar-fg); 
+  z-index: 1;
 }
 
 #\$left-nav a {
@@ -309,4 +311,8 @@ blockquote {
   padding: 1rem 0 1rem 2rem;
   border-left: 4px var(--fg) solid;
   box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
 }

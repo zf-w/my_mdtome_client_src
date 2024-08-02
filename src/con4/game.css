@@ -1,0 +1,85 @@
+.con4_game {
+    display: block;
+    margin: 5% auto;
+    position: relative;
+}
+
+@media (max-width: 800px) {
+    .con4_game {
+        aspect-ratio: 1.5;
+        padding: 3% 10%;
+        width: 100%;
+    }
+}
+  
+@media (min-width: 800px) and (max-width: 1400px) {
+    .con4_game {
+        aspect-ratio: 2;
+        padding: 3% 20%;
+    }
+}
+  
+@media (min-width: 1400px) {
+    .con4_game {
+        aspect-ratio: 3;
+        padding: 3% 30%;
+    }
+}
+
+.con4_game_ctrl_root {
+    height: 50px;
+    position: relative;
+}
+
+.con4_game_play_row {
+    height: auto;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.con4_game_loading .con4_game_play_row {
+    display: none;
+}
+
+.con4_game_play_ctrl {
+    background-color: var(--bg);
+    height: 100%;
+    position:relative;
+    /* float: left; */
+    display: inline-block;
+    text-align: center;
+    overflow: hidden;
+}
+
+.con4_game_btn {
+    color: var(--fg);
+    background-color: var(--bg);
+    border: 0px var(--fg);
+}
+
+.con4_game_btn:hover {
+    cursor:pointer;
+}
+
+.con4_game_ctrl_1_row {
+    position: relative;
+    height: 15px;
+    margin: 1rem 0;
+    text-align: center;
+    width: 100%;
+}
+
+.con4_game_loading .con4_game_ctrl_1_row {
+    display: none;
+}
+
+.con4_game_loading_msg {
+    display: none;
+    text-align: center;
+    width: 100%;
+}
+
+.con4_game_loading .con4_game_loading_msg {
+    display: block;
+}
