@@ -13,54 +13,18 @@ function make_play_ctrl_elem_id(root_elem_id, i) {
 }
 
 function make_play_ctrl_score_elem_id(root_elem_id, i) {
-    return `${root_elem_id}_play_score${i}`
+    return `${root_elem_id}_play_score_${i}`
 }
 
 function make_undo_btn_id(root_elem_id) {
     return `${root_elem_id}_undo_btn`
 }
 
-function add_listeners_to_con4_game_ctrl(root_elem_id, w_num, play_fn, undo_fn, imagine_fn, restart_fn) {
-    for (let i = 0; i < w_num; ++i) {
-        const curr_btn_elem_mut_ref = document.getElementById(make_play_ctrl_btn_elem_id(root_elem_id, i))
-        curr_btn_elem_mut_ref.addEventListener("click", () => {play_fn(i)})
-        curr_btn_elem_mut_ref.addEventListener("mouseenter", () => {imagine_fn(i)})
-        curr_btn_elem_mut_ref.addEventListener("mouseleave", () => {imagine_fn(undefined)})
-    }
-    const undo_btn_id = make_undo_btn_id(root_elem_id)
-    const undo_btn_mut_ref = document.getElementById(undo_btn_id)
-    undo_btn_mut_ref.addEventListener("click", undo_fn)
-    undo_btn_mut_ref.addEventListener("mouseenter", () => {imagine_fn(-1)})
-    undo_btn_mut_ref.addEventListener("mouseleave", () => {imagine_fn(undefined)})
-}
-/**
- * This function renders a Connect Four Interactive Playground into the elem having the corresponding `elem_id`.
- * @param {string} elem_id 
- * @param {{w: number, h: number, actions: string, api_url: string}} data 
- */
-export function render(elem_id, data) {
-    const w = data.w
-    const h = data.h
-    const elem_mut_ref = document.getElementById(elem_id)
-    if (elem_mut_ref == undefined) {
-        return
-    }
-    const api_url = data.api_url
-
-    const base_actions_string = data.actions
-    const base_actions_list = con4.actions_string_to_list(base_actions_string)
-    const following_actions_list = []
-    let imagine_action = undefined
-    let loading = true
-    let api_data = undefined
-
-    elem_mut_ref.classList.add(LOADING_CLASSNAME)
-
-    let actions_list = con4.collect_actions(base_actions_list, following_actions_list, imagine_action)
+export function make_con4_game_inner_string(elem_id, w, h, actions_list) {
     const heights = new Uint8Array(w)
     const play_ctrl_elems_hidden_flags = []
     const play_ctrl_elems_ids = []
-    let undo_hidden_flag = true;
+    const play_ctrl_score_elems_ids = []
 
     for (let i = 0; i < actions_list.length; ++i) {
         heights[actions_list[i]] += 1
@@ -72,6 +36,7 @@ export function render(elem_id, data) {
             play_ctrl_elems_hidden_flags.push(true)
         }
         play_ctrl_elems_ids.push(make_play_ctrl_elem_id(elem_id, i))
+        play_ctrl_score_elems_ids.push(make_play_ctrl_score_elem_id(elem_id, i))
     }
 
     const board_id = `${elem_id}_board`
@@ -84,32 +49,49 @@ export function render(elem_id, data) {
             play_ctrl_btns_strings.push(`<div id=${play_ctrl_elems_ids[i]} class="con4_game_play_ctrl ${hidden_class}" style="width:${col_off_num}%;"><button id="${make_play_ctrl_btn_elem_id(elem_id, i)}" class="con4_game_btn" >play</button><div id=${make_play_ctrl_score_elem_id(elem_id, i)}>0</div></div>`)//left:${i * col_off_num}%
         
     }
-
-    elem_mut_ref.innerHTML = 
-    `${con4_board.make_board_with_wrapper_elem_string(actions_list, w, h, board_id)}
+    return [`${con4_board.make_board_with_wrapper_elem_string(actions_list, w, h, board_id)}
 <section class="con4_game_ctrl_root">
     <div class="con4_game_play_row">
     ${"".concat(...play_ctrl_btns_strings)}
     </div>
     <div class="con4_game_ctrl_1_row">
-        <button id=${undo_btn_id} class="con4_game_btn hidden">Undo</button>
+        <button id=${undo_btn_id} class="con4_game_btn hidden">Undo</button>    
     </div>
-</section>`
+    <div class="con4_game_loading_msg">Loading</div>
+</section>`, {board_id, undo_btn_id, heights, play_ctrl_elems_hidden_flags, play_ctrl_elems_ids, play_ctrl_score_elems_ids}]
+}
+
+export function make_con4_game_logic_callbacks(core, callback) {
+    const {elem_mut_ref, base_actions_list, following_actions_list, api_url, w, h, 
+        utils: {board_id, undo_btn_id, heights, play_ctrl_elems_hidden_flags, play_ctrl_elems_ids, play_ctrl_score_elems_ids}} = core
+
+    let imagine_action = undefined
+    let api_data = undefined
+    let undo_hidden_flag = true;
 
     const modify_ctrl_panel = () => {
-        if (loading == true) {
+        let end = false
+        if (api_data == undefined) {
             elem_mut_ref.classList.add(LOADING_CLASSNAME)
         } else {
             elem_mut_ref.classList.remove(LOADING_CLASSNAME)
+            for (let i = 0; i < api_data.nexts.length; ++i) {
+                const curr_action_data = api_data.nexts[i]
+                document.getElementById(play_ctrl_score_elems_ids[curr_action_data.a]).innerText = -curr_action_data.s
+            }
+            if (api_data.nexts.length == 0) {
+                end = true
+            }
         }
+ 
         for (let i = 0; i < w; ++i) {
-            if (heights[i] < h) {
+            if (heights[i] < h && !end) {
                 if (play_ctrl_elems_hidden_flags[i] == true) {
                     document.getElementById(play_ctrl_elems_ids[i]).classList.remove(HIDDEN_CLASSNAME)
                     play_ctrl_elems_hidden_flags[i] = false
                 }
             } else {
-                if (play_ctrl_elems_hidden_flags[i] == false) {
+                if (play_ctrl_elems_hidden_flags[i] == false || api_data.nexts.length == 0) {
                     document.getElementById(play_ctrl_elems_ids[i]).classList.add(HIDDEN_CLASSNAME)
                     play_ctrl_elems_hidden_flags[i] = true
                 }   
@@ -129,8 +111,7 @@ export function render(elem_id, data) {
         fetch(`${api_url}/${con4.two_actions_lists_to_string(base_actions_list, following_actions_list)}`).then((res) => {
             return res.json()
         }).then((data) => {
-            console.log(data)
-            loading = true
+            api_data = data
             modify_ctrl_panel()
         }).catch((err) => {
             console.log(err)
@@ -139,10 +120,17 @@ export function render(elem_id, data) {
     }
 
     const render_fn = () => {
-        actions_list = con4.collect_actions(base_actions_list, following_actions_list, imagine_action)
+        const actions_list = con4.collect_actions(base_actions_list, following_actions_list, imagine_action)
         con4_board.render_actions_list(board_id, {w, h, actions_list})
-        loading = true
+        if (callback != undefined) {
+            callback(following_actions_list, imagine_action)
+        }
         modify_ctrl_panel()
+    }
+
+    const fetch_and_render_fn = () => {
+        api_data = undefined
+        render_fn()
         fetch_fn()
     }
 
@@ -150,7 +138,7 @@ export function render(elem_id, data) {
         following_actions_list.push(i)
         imagine_action = undefined
         heights[i] += 1
-        render_fn()
+        fetch_and_render_fn()
     } 
 
     const undo_fn = () => {
@@ -158,13 +146,58 @@ export function render(elem_id, data) {
         if (last_i != undefined) {
             heights[last_i] -= 1
         }
-        render_fn()
+        imagine_action = undefined
+        fetch_and_render_fn()
     }
 
     const imagine_fn = (i) => {
         imagine_action = i
         render_fn()
     }
+
+    return {fetch_fn, play_fn, undo_fn, imagine_fn}
+}
+
+export function add_listeners_to_con4_game_ctrl(root_elem_id, w_num, play_fn, undo_fn, imagine_fn) {
+    for (let i = 0; i < w_num; ++i) {
+        const curr_btn_elem_mut_ref = document.getElementById(make_play_ctrl_btn_elem_id(root_elem_id, i))
+        curr_btn_elem_mut_ref.addEventListener("click", () => {play_fn(i)})
+        curr_btn_elem_mut_ref.addEventListener("mouseenter", () => {imagine_fn(i)})
+        curr_btn_elem_mut_ref.addEventListener("mouseleave", () => {imagine_fn(undefined)})
+    }
+    const undo_btn_id = make_undo_btn_id(root_elem_id)
+    const undo_btn_mut_ref = document.getElementById(undo_btn_id)
+    undo_btn_mut_ref.addEventListener("click", undo_fn)
+    undo_btn_mut_ref.addEventListener("mouseenter", () => {imagine_fn(-1)})
+    undo_btn_mut_ref.addEventListener("mouseleave", () => {imagine_fn(undefined)})
+}
+
+/**
+ * This function renders a Connect Four Interactive Playground into the elem having the corresponding `elem_id`.
+ * @param {string} elem_id 
+ * @param {{w: number, h: number, actions: string, api_url: string}} data 
+ */
+export function render(elem_id, data, callback) {
+    const w = data.w
+    const h = data.h
+    const elem_mut_ref = document.getElementById(elem_id)
+    if (elem_mut_ref == undefined) {
+        return
+    }
+    const api_url = data.api_url
+
+    const base_actions_string = data.actions
+    const base_actions_list = con4.actions_string_to_list(base_actions_string)
+
+    elem_mut_ref.classList.add(LOADING_CLASSNAME)
+
+    const [elem_inner_html, utils] = make_con4_game_inner_string(elem_id, w, h, base_actions_list)
+
+    elem_mut_ref.innerHTML = elem_inner_html
+
+    const core = {w, h, elem_mut_ref, api_url, base_actions_list, following_actions_list:[], utils}
+
+    const {play_fn, undo_fn, imagine_fn, fetch_fn} = make_con4_game_logic_callbacks(core, callback)
 
     add_listeners_to_con4_game_ctrl(elem_id, w, play_fn, undo_fn, imagine_fn)
 

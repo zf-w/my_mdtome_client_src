@@ -44,9 +44,9 @@
 
 .con4_game_play_ctrl {
     background-color: var(--bg);
+    font-size: 1.1rem;
     height: 100%;
     position:relative;
-    /* float: left; */
     display: inline-block;
     text-align: center;
     overflow: hidden;
@@ -56,6 +56,7 @@
     color: var(--fg);
     background-color: var(--bg);
     border: 0px var(--fg);
+    font-size: 1.2rem;
 }
 
 .con4_game_btn:hover {
@@ -81,5 +82,6 @@
 }
 
 .con4_game_loading .con4_game_loading_msg {
+    color: var(--fg);
     display: block;
 }

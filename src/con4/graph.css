@@ -1,0 +1,48 @@
+.con4_graph_wrapper {
+    display: block;
+    margin: 0 auto 5% auto;
+    position: relative;
+}
+
+@media (max-width: 800px) {
+    .con4_graph_wrapper {
+        aspect-ratio: 1.5;
+        padding: 3% 10%;
+    }
+}
+  
+@media (min-width: 800px) and (max-width: 1400px) {
+    .con4_graph_wrapper {
+        aspect-ratio: 2;
+        padding: 0 20% 5% 20%;
+    }
+}
+  
+@media (min-width: 1400px) {
+    .con4_graph_wrapper {
+        aspect-ratio: 3;
+        padding: 0 35% 5% 35%;
+    }
+}
+
+.con4_graph_graph {
+    width: 100%;
+}
+
+@media (max-width: 800px) {
+    .con4_graph_graph {
+        aspect-ratio: 1;
+    }
+}
+  
+@media (min-width: 800px) and (max-width: 1400px) {
+    .con4_graph_graph {
+        aspect-ratio: 1.5;
+    }
+}
+  
+@media (min-width: 1400px) {
+    .con4_graph_graph {
+        aspect-ratio: 1.7;
+    }
+}

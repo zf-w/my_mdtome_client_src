@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="/src/con4/board.css">
 <link rel="stylesheet" href="/src/zf/fun/galaxy.css">
 <link rel="stylesheet" href="/src/con4/game.css">
+<link rel="stylesheet" href="/src/con4/graph.css">
 <script src="/src/prelude.js"></script>
 <script type="importmap">
 {"imports":{
@@ -17,8 +18,11 @@
 "three":"/src/three.js",
 "san":"/src/san.js",
 "zf_fun_galaxy":"/src/zf/fun/galaxy.js",
+"graph_ctrl": "/src/graph/ctrl.js",
 "con4":"/src/con4.js",
-"con4_game": "/src/con4/game.js"}}
+"con4_game": "/src/con4/game.js",
+"con4_graph": "/src/con4/graph.js",
+"con4_graph_util": "/src/con4/graph/util.js"}}
 </script>
 </head>
 <body>
@@ -51,7 +55,8 @@
 </blockquote>
 <section id="$custom_1" class="con4_board"></section>
 <p>Maecenas commodo dolor rhoncus lacinia porttitor. Nostra cursus orci vitae viverra diam varius ad. Pellentesque vehicula facilisi himenaeos; rhoncus magna himenaeos quis. Enim nam aliquet penatibus efficitur auctor vulputate fames. Egestas purus nunc ad eu sodales sem. Lorem tristique odio pulvinar quam faucibus felis sed. Commodo ante lectus amet blandit in dui commodo augue purus. Magnis phasellus maecenas vitae cursus sed; imperdiet metus scelerisque primis. Potenti facilisi lorem pellentesque imperdiet lacus mattis risus.</p>
-<section id="$custom_2" class="con4_game"></section>
+<section id="$custom_2" class="con4_graph"></section>
+<section id="$custom_3" class="con4_game"></section>
 </main>
 </body>
 </section>
@@ -76,6 +81,8 @@ import * as san from "san"
 import * as zf_fun_galaxy from "zf_fun_galaxy"
 import * as con4 from "con4"
 import * as con4_game from "con4_game"
+import * as con4_graph from "con4_graph"
+
 zf_fun_galaxy.render("$custom_0", {
     "galaxy_param": {
         "branches": 4
@@ -93,11 +100,18 @@ con4_board.render("$custom_1", {
     "h":6,
     "actions": "1231"
 })
-con4_game.render("$custom_2", {
+con4_graph.render("$custom_2", {
+    "load": ["/src/assets/c4w7h6.len5.20240803.gamegraph.json"],
+    "following_actions_string": "1234",
+    "api_url": "http://localhost:8080/api/c4w7h6/solve"
+})
+
+con4_game.render("$custom_3", {
     "w":7,
     "h":6,
-    "actions": "1231",
-    "api_url": "https://www.zf-w.space/api/c4w7h6/solve"
+    "actions": "1234",
+    
+    "api_url": "http://localhost:8080/api/c4w7h6/solve"
 })
 </script>
 </body>

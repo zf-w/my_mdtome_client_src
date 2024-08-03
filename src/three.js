@@ -51041,7 +51041,7 @@ class OrbitControls extends EventDispatcher {
       if (
         scope.enabled === false ||
         scope.enableZoom === false ||
-        state !== STATE.NONE
+        state !== STATE.NONE || !event.shiftKey
       )
         return;
 

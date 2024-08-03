@@ -113,7 +113,7 @@ body {
 #\$wrapper-content {
   margin: auto;
   position: relative;
-  width: var(--wrapper-content-width);
+  /* width: var(--wrapper-content-width); */
   z-index: 2;
 }
 
@@ -243,30 +243,32 @@ a:hover {
 }
 
 h1 {
-  font-size: 2.7rem; /* 36px */
-  line-height: 3.5rem; /* 40px */
-  font-weight: 500;
-  margin-top: 3.75rem;
-  margin-bottom: 1.75rem;
   color: var(--fg);
-  z-index: 3;
+  font-size: 2.7rem;
+  font-weight: 500;
+  line-height: 3.5rem;
+  margin: 3.75rem auto 1.75rem auto;
   position: relative;
+  width: var(--wrapper-content-width);
+  z-index: 3;
 }
 
 h2 {
-  font-size: 2rem; /* 30px */
-  line-height: 2.25rem; /* 36px */
-  font-weight: 400;
-  margin: 2.2rem 0;
   color: var(--fg);
+  font-size: 2rem;
+  line-height: 2.25rem;
+  font-weight: 400;
+  margin: 2.2rem auto;
+  width: var(--wrapper-content-width);
 }
 
 h3 {
-  font-size: 1.7rem; /* 24px */
-  line-height: 2rem; /* 32px */
-  font-weight: 400;
-  margin: 1.25rem 0;
   color: var(--fg);
+  font-size: 1.7rem;
+  font-weight: 400;
+  line-height: 2rem;
+  margin: 1.25rem auto;
+  width: var(--wrapper-content-width);
 }
 
 @media (max-width: 800px) {
@@ -291,7 +293,10 @@ p {
   font-weight: 100;
   letter-spacing: 0.015em;
   margin-top: 1.5rem;
+  margin-right: auto;
   margin-bottom: 0.75rem;
+  margin-left: auto;
+  width: var(--wrapper-content-width);
   color: var(--fg);
   z-index: 2;
 }
@@ -303,16 +308,16 @@ li {
   color: var(--sidebar-fg);
 }
 
-blockquote {
+blockquote { 
+  border-left: 4px var(--fg) solid;
   font-size: 1.3rem;
   font-weight: 200;
   letter-spacing: 0.015em;
-  margin: 0;
+  margin: 1rem auto;
   padding: 1rem 0 1rem 2rem;
-  border-left: 4px var(--fg) solid;
-  box-sizing: border-box;
+  width: var(--wrapper-content-width);
 }
 
 .hidden {
-  display: none;
+  visibility:hidden !important;
 }
