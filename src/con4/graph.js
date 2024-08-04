@@ -100,9 +100,14 @@ function render_with_game_graph(elem_id,game_graph, data) {
 }
 
 export function render(elem_id, data) {
-    fetch(data.load[0]).then((res) => {return res.json()}).then((game_graph)=>{
-        render_with_game_graph(elem_id,game_graph, data)
-    }).catch((err_msg) => {
-        console.log(err_msg)
-    })
+    let res = window.mdbook.fetch_static_json_helper(data.load[0])
+    if (res.data != undefined) {
+        render_with_game_graph(elem_id,res.data, data)
+    } else {
+        res.promise.then((game_graph)=>{
+            render_with_game_graph(elem_id,game_graph, data)
+        }).catch((err_msg) => {
+            console.log(err_msg)
+        })
+    }
 }

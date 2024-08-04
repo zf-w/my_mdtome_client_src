@@ -6,20 +6,6 @@ export function actions_string_to_list(actions_string) {
   return actions_list
 }
 
-export function actions_to_board(actions, w) {
-    let board = []
-    for (let i = 0; i < w; ++i) {
-      board.push([])
-    }
-  
-    for (let i = 0; i < actions.length; ++i) {
-      const action= actions[i]
-      board[action - 1].push(i)
-    }
-  
-    return board
-}
-
 export function collect_actions(base_actions_list, following_actions_list, imagine_action) {
   const ans_actions_list = base_actions_list.concat(following_actions_list)
   if (imagine_action != undefined) {

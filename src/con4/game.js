@@ -108,14 +108,18 @@ export function make_con4_game_logic_callbacks(core, callback) {
     }
 
     const fetch_fn = () => {
-        fetch(`${api_url}/${con4.two_actions_lists_to_string(base_actions_list, following_actions_list)}`).then((res) => {
-            return res.json()
-        }).then((data) => {
-            api_data = data
+        const res = window.mdbook.fetch_static_json_helper(`${api_url}/${con4.two_actions_lists_to_string(base_actions_list, following_actions_list)}`)
+        if (res.data != undefined) {
+            api_data = res.data
             modify_ctrl_panel()
-        }).catch((err) => {
-            console.log(err)
-        }) 
+        } else {
+            res.promise.then((data) => {
+                api_data = data
+                modify_ctrl_panel()
+            }).catch((err) => {
+                console.log(err)
+            }) 
+        }
 
     }
 

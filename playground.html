@@ -56,6 +56,7 @@
 <section id="$custom_1" class="con4_board"></section>
 <p>Maecenas commodo dolor rhoncus lacinia porttitor. Nostra cursus orci vitae viverra diam varius ad. Pellentesque vehicula facilisi himenaeos; rhoncus magna himenaeos quis. Enim nam aliquet penatibus efficitur auctor vulputate fames. Egestas purus nunc ad eu sodales sem. Lorem tristique odio pulvinar quam faucibus felis sed. Commodo ante lectus amet blandit in dui commodo augue purus. Magnis phasellus maecenas vitae cursus sed; imperdiet metus scelerisque primis. Potenti facilisi lorem pellentesque imperdiet lacus mattis risus.</p>
 <section id="$custom_2" class="con4_graph"></section>
+<section id="$custom_4" class="con4_graph"></section>
 <section id="$custom_3" class="con4_game"></section>
 </main>
 </body>
@@ -103,6 +104,12 @@ con4_board.render("$custom_1", {
 con4_graph.render("$custom_2", {
     "load": ["/src/assets/c4w7h6.len5.20240803.gamegraph.json"],
     "following_actions_string": "1234",
+    "api_url": "http://localhost:8080/api/c4w7h6/solve"
+})
+
+con4_graph.render("$custom_4", {
+    "load": ["/src/assets/c4w7h6.len5.20240803.gamegraph.json"],
+    "following_actions_string": "3333",
     "api_url": "http://localhost:8080/api/c4w7h6/solve"
 })
 

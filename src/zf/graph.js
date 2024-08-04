@@ -57,13 +57,14 @@ function render_graph(canvas_elem, graph, config) {
 }
   
 export function render(id_string, curr_data) {
-  const curr_element = document.getElementById(id_string);
-  fetch(curr_data.path)
-    .then((res) => {
-      return res.json();
-    })
-    .then((graph) => {
-      render_graph(curr_element, graph, curr_data);
+  const curr_element = document.getElementById(id_string)
+  const res = window.mdbook.fetch_static_json_helper(curr_data.path)
+  if (res.data != undefined) {
+    render_graph(curr_element, res.data, curr_data)
+  } else {
+    res.then((graph) => {
+      render_graph(curr_element, res.data, curr_data)
     });
+  }
 }
   
