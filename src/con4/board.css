@@ -1,25 +1,14 @@
 .con4_board_p {
     dominant-baseline: middle;
     font: 80% sans-serif;
+    text-anchor: middle;
+    -webkit-user-select: none;
     user-select: none;
     width: 100%;
 }
 
 .con4_board_p0 {
-    width: 100%;
     stroke: var(--bg);
-    dominant-baseline: middle;
-    user-select: none;
-    text-anchor: middle;
-    font: 80% sans-serif;
-}
-
-.con4_board_p1 {
-    width: 100%;
-    dominant-baseline: middle;
-    user-select: none;
-    text-anchor: middle;
-    font: 80% sans-serif;
 }
 
 .con4_board {

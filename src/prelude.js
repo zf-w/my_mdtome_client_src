@@ -1,7 +1,12 @@
-const html_elem_mut_ref = document.getElementById("$root");
-let curr = 0;
+const SIDEBAR_STORAGE_KEY = "sidebar";
+const SIDEBAR_ON_CLASS = "sidebar-on";
 const THEME_KEY = "theme";
+
+const html_elem_mut_ref = document.getElementById("$root");
+let curr_theme_i = 0;
+
 const themes = ["theme-rust-navy", "theme-zf-honey"];
+
 
 let stored_str = localStorage.getItem(THEME_KEY);
 
@@ -10,11 +15,9 @@ if (html_elem_mut_ref != undefined) {
     let stored_idx = Number.parseInt(stored_str);
     html_elem_mut_ref.classList.toggle(themes[stored_idx]);
   } else {
-    html_elem_mut_ref.classList.toggle(themes[curr]);
+    html_elem_mut_ref.classList.toggle(themes[curr_theme_i]);
   }
 
-  const SIDEBAR_STORAGE_KEY = "sidebar";
-  const SIDEBAR_ON_CLASS = "sidebar-on";
   const sidebar_storage = localStorage.getItem(SIDEBAR_STORAGE_KEY);
   if (sidebar_storage == null) {
     if (window.innerWidth > 800) {

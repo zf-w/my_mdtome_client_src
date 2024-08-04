@@ -107,7 +107,6 @@ export function draw_graph(
         let res_action = following_actions[action_i]
         if (flip) {
             res_action = game_ctrl.flip(res_action)
-            console.log(res_action)
         }
         const curr_node_opt = get_next_node_i_from_actions(
             action_node_edge_adj,
@@ -137,7 +136,7 @@ export function draw_graph(
 export function calc_target_result(
     game_ctrl,
     action_node_edge_adj,
-    graph_game,
+    game_graph,
     following_actions,
 ) {
     const ans_nexts = []
@@ -175,19 +174,19 @@ export function calc_target_result(
         if (flip) {
             res_action = game_ctrl.flip(res_action)
         }
-        let s = graph_game.nodes.colors.colors[next_node_i]
-        // if (first_hand) {
-        //     s = -s
-        // }
+        let s = game_graph.nodes.colors.colors[next_node_i]
+        if (first_hand) {
+            s = -s
+        }
         ans_nexts.push({ a: res_action, s, c: 0, ac: 0 })
     }
     if (ans_nexts.length == 0) {
         return undefined
     }
-    let curr_s = graph_game.nodes.colors.colors[prev_node_i]
-    // if (!first_hand) {
-    //     curr_s = -curr_s
-    // }
+    let curr_s = game_graph.nodes.colors.colors[prev_node_i]
+    if (!first_hand) {
+        curr_s = -curr_s
+    }
     return {
         s: curr_s,
         c: 0,
@@ -236,11 +235,11 @@ export function calc_target_position(
 
 export function init_graph_with_game_graph(
     graph_ctrl,
-    graph_game,
+    game_graph,
     action_node_edge_adj
 ) {
-    const node_color_map = new ColorMap(graph_game.nodes.colors.colormap)
-    const color_idxs = graph_game.nodes.colors.colors
+    const node_color_map = new ColorMap(game_graph.nodes.colors.colormap)
+    const color_idxs = game_graph.nodes.colors.colors
     for (let node_i = 0; node_i < color_idxs.length; ++node_i) {
         const curr_color_i = color_idxs[node_i]
         graph_ctrl.set_node_color(

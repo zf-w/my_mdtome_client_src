@@ -26,7 +26,12 @@
 }
 
 .con4_graph_graph {
+    cursor: grab;
     width: 100%;
+}
+
+.con4_graph_graph:active {
+    cursor: grabbing;
 }
 
 @media (max-width: 800px) {

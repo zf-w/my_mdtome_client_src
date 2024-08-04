@@ -9,13 +9,13 @@ function make_graph_part_id(elem_id) {
     return `${elem_id}_graph`
 }
 
-function render_with_game_graph(elem_id,game_graph, data) {
+function render_with_game_graph(elem_id,game_graph, param) {
     const look_at_target_vec3 = new three.Vector3(0,0,0)
     const [graph_index, action_node_edge_adj] = con4_graph_util.build_index_and_node_edge_adj_from_actions_map(
         game_graph.actions
     )
 
-    const {api_url, following_actions_string} = data
+    const {api_url, following_actions_string} = param
     const following_actions_list = con4.actions_string_to_list(following_actions_string)
 
     const {w, h, start: base_actions_list} = game_graph.game
@@ -28,7 +28,9 @@ function render_with_game_graph(elem_id,game_graph, data) {
 
     const elem_mut_ref = document.getElementById(elem_id)
     const graph_part_id = make_graph_part_id(elem_id)
-    const [game_elem_string, game_elem_util] = con4_game.make_con4_game_inner_string(elem_id, w, h, base_actions_list.concat(following_actions_list))
+
+
+    const [game_elem_string, game_elem_util] = con4_game.make_con4_game_inner_string(elem_id, w, h, base_actions_list, following_actions_list)
     elem_mut_ref.innerHTML = `<section id=${graph_part_id} class="con4_graph_graph"></section><section class="con4_graph_wrapper">${game_elem_string}</section>`
 
     const graph_elem_mut_ref = document.getElementById(graph_part_id)
@@ -36,13 +38,27 @@ function render_with_game_graph(elem_id,game_graph, data) {
     scene.add(graph_ctrl.obj)
 
     const camera = new three.PerspectiveCamera(75, 1.0, 0.01, 10)
-    camera.position.z = 2
+    camera.position.z = 1.0
+    if (param.camera_param != undefined) {
+        if (param.camera_param.z != undefined) {
+            camera.position.z = param.camera_param.z 
+        }
+    }
     const control = new three.OrbitControls(camera, graph_elem_mut_ref)
-
+    if (param.orbit_ctrl_param != undefined) {
+        const orbit_ctrl_param = param.orbit_ctrl_param
+        if (orbit_ctrl_param != undefined) {
+            const auto_rotate_speed = orbit_ctrl_param.auto_rotate_speed 
+            if (auto_rotate_speed == 0) {
+                control.autoRotate = false
+            } else {
+                control.autoRotate = true
+                control.autoRotateSpeed = auto_rotate_speed
+            }
+        }
+    }
     control.enableZoom = true
     control.enablePan = false
-    control.autoRotate = true
-    control.autoRotateSpeed = 0.1
     control.target = look_at_target_vec3
 
     let last_update = Date.now()
@@ -91,21 +107,39 @@ function render_with_game_graph(elem_id,game_graph, data) {
         }
     }
 
-    const {play_fn, undo_fn, imagine_fn, fetch_fn} = con4_game.make_con4_game_logic_callbacks(core, render_graph)
+    const {play_fn, undo_fn, imagine_fn, fetch_fn} = con4_game.make_con4_game_logic_callbacks(core, render_graph, (base_actions_list, following_actions_list) => {
+        return con4_graph_util.calc_target_result(game_ctrl,
+            action_node_edge_adj,
+            game_graph,
+            following_actions_list,)
+    })
 
     con4_game.add_listeners_to_con4_game_ctrl(elem_id, w, play_fn, undo_fn, imagine_fn)
 
     render_graph(following_actions_list, undefined)
     fetch_fn()
 }
-
-export function render(elem_id, data) {
-    let res = window.mdbook.fetch_static_json_helper(data.load[0])
+/**
+ * 
+ * @param {string} elem_id 
+ * @param {{
+ *  load: string[],
+ *  following_actions_string: string,
+ *  camera_param: {
+ *  z: number
+ * },
+ * orbit_ctrl_param: {
+ *  auto_rotate_speed: number
+ * }
+ * }} param 
+ */
+export function render(elem_id, param) {
+    let res = window.mdbook.fetch_static_json_helper(param.load[0])
     if (res.data != undefined) {
-        render_with_game_graph(elem_id,res.data, data)
+        render_with_game_graph(elem_id,res.param, param)
     } else {
         res.promise.then((game_graph)=>{
-            render_with_game_graph(elem_id,game_graph, data)
+            render_with_game_graph(elem_id,game_graph, param)
         }).catch((err_msg) => {
             console.log(err_msg)
         })

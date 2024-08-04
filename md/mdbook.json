@@ -8,13 +8,19 @@
     "lang_strings": ["en"],
 
     "exts": {
+        "con4": [],
+        "con4_board": [],
+        "con4_game": ["con4", "con4_board"],
+        "con4_graph": ["con4", "con4_board", "con4_game", "con4_graph_util", "graph_ctrl"],
+        "con4_graph_util": [],
+        "graph_ctrl": ["three", "san"],
         "three": [],
         "san": ["three"],
         "zf_graph": ["three", "san"],
-        "zf_fun_galaxy": ["three", "san"],
-        "con4": [],
-        "con4_board": []
+        "zf_fun_galaxy": ["three", "san"]
     },
     "pre_script_url_strings":["/prelude.js"],
-    "style_url_strings":["/base.css"]
+    "style_url_strings":["/base.css"],
+
+    "author_string": "Zhifeng(之枫)"
 }
