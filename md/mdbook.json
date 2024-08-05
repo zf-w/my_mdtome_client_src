@@ -13,11 +13,11 @@
         "con4_game": ["con4", "con4_board"],
         "con4_graph": ["con4", "con4_board", "con4_game", "con4_graph_util", "graph_ctrl"],
         "con4_graph_util": [],
+        "fun_galaxy": ["three", "san"],
+        "graph": ["three", "san"],
         "graph_ctrl": ["three", "san"],
         "three": [],
-        "san": ["three"],
-        "zf_graph": ["three", "san"],
-        "zf_fun_galaxy": ["three", "san"]
+        "san": ["three"]
     },
     "pre_script_url_strings":["/prelude.js"],
     "style_url_strings":["/base.css"],

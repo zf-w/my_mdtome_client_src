@@ -1,3 +1,22 @@
+/**
+ * @license 
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * 
+ * Zhifeng's Markdown To Website Renderer
+ * Copyright (C) 2024  Zhifeng Wang 王之枫
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, version 3 of the License only.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
+ */
+
 import * as con4 from "con4"
 import * as con4_game from "con4_game"
 import * as con4_graph_util from "con4_graph_util"
@@ -40,25 +59,13 @@ function render_with_game_graph(elem_id,game_graph, param) {
     const camera = new three.PerspectiveCamera(75, 1.0, 0.01, 10)
     camera.position.z = 1.0
     if (param.camera_param != undefined) {
-        if (param.camera_param.z != undefined) {
-            camera.position.z = param.camera_param.z 
-        }
+        san.set_perspective_camera_from_param(camera, param.camera_param)
     }
     const control = new three.OrbitControls(camera, graph_elem_mut_ref)
     if (param.orbit_ctrl_param != undefined) {
-        const orbit_ctrl_param = param.orbit_ctrl_param
-        if (orbit_ctrl_param != undefined) {
-            const auto_rotate_speed = orbit_ctrl_param.auto_rotate_speed 
-            if (auto_rotate_speed == 0) {
-                control.autoRotate = false
-            } else {
-                control.autoRotate = true
-                control.autoRotateSpeed = auto_rotate_speed
-            }
-        }
+        san.set_orbit_ctrl_from_param(control, param.orbit_ctrl_param)
     }
-    control.enableZoom = true
-    control.enablePan = false
+
     control.target = look_at_target_vec3
 
     let last_update = Date.now()

@@ -1,3 +1,25 @@
+
+/**
+ * @license 
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * 
+ * San.js: Utilities for Multi-Scene One-Canvas with Three.js and others
+ * Copyright (C) 2024  Zhifeng Wang 王之枫
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, version 3 of the License only.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
+ */
+
+
 import * as Three from "three";
 
 class SceneInfo {
@@ -166,11 +188,49 @@ class San {
     this.canvas = undefined;
   }
 }
+try {
+  const root_canvas = document.getElementById("$root-canvas");
+  const san_context = new San();
+  san_context.init(root_canvas);
 
-const root_canvas = document.getElementById("$root-canvas");
-const san_context = new San();
-san_context.init(root_canvas);
+  window.mdbook.san_context = san_context;
+} catch {
+  console.log("Failed to create the root canvas")
+}
 
-window.mdbook.san_context = san_context;
+
+export function set_perspective_camera_from_param(camera, camera_param) {
+  if (camera_param != undefined) {
+    if (camera_param.z != undefined) {
+        camera.position.z = camera_param.z 
+    }
+  }
+}
+/**
+ * 
+ * @param {OrbitControl} orbit_ctrl 
+ * @param {{
+ *  allow_pan: boolean,
+ *  allow_zoom: boolean,
+ *  auto_rotate_speed: number,
+ * }} orbit_ctrl_param 
+ */
+export function set_orbit_ctrl_from_param(orbit_ctrl, orbit_ctrl_param) {
+    if (orbit_ctrl_param != undefined) {
+        const auto_rotate_speed = orbit_ctrl_param.auto_rotate_speed 
+        if (auto_rotate_speed == 0) {
+            orbit_ctrl.autoRotate = false
+        } else {
+            orbit_ctrl.autoRotate = true
+            orbit_ctrl.autoRotateSpeed = auto_rotate_speed
+        }
+        if (orbit_ctrl_param.allow_pan != undefined) {
+          orbit_ctrl.allowPan = orbit_ctrl_param.allow_pan
+        }
+        if (orbit_ctrl_param.allow_zoom != undefined) {
+          orbit_ctrl.allowZoom = orbit_ctrl_param.allow_zoom
+        }
+    }
+}
 
 export {SceneInfo}

@@ -17,55 +17,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
  */
 
-.con4_graph_wrapper {
-    display: block;
-    margin: 0 auto 5% auto;
-    position: relative;
-}
-
 @media (max-width: 800px) {
-    .con4_graph_wrapper {
-        aspect-ratio: 1.5;
-        padding: 3% 10%;
-    }
+  .graph {
+    max-height: 100vh;
+  }
 }
-  
+
 @media (min-width: 800px) and (max-width: 1400px) {
-    .con4_graph_wrapper {
-        padding: 2% 25% 5% 25%;
-    }
+  .graph {
+    max-height: 75vh;
+  }
 }
-  
+
 @media (min-width: 1400px) {
-    .con4_graph_wrapper {
-        padding: 2% 35% 5% 35%;
-    }
+  .graph {
+    max-height: 50vh;
+  }
 }
 
-.con4_graph_graph {
-    cursor: grab;
-    margin-top: 5%;
-    width: 100%;
+.graph {
+  aspect-ratio: 1;
+  cursor: grab;
+  display: block;
+  margin: auto;
+  width: 100%;
 }
 
-.con4_graph_graph:active {
-    cursor: grabbing;
-}
-
-@media (max-width: 800px) {
-    .con4_graph_graph {
-        aspect-ratio: 1;
-    }
-}
-  
-@media (min-width: 800px) and (max-width: 1400px) {
-    .con4_graph_graph {
-        aspect-ratio: 1.5;
-    }
-}
-  
-@media (min-width: 1400px) {
-    .con4_graph_graph {
-        aspect-ratio: 1.7;
-    }
+.graph:active {
+  cursor: grabbing;
 }

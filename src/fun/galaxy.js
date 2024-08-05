@@ -1,3 +1,22 @@
+/**
+ * @license 
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * 
+ * Zhifeng's Markdown To Website Renderer
+ * Copyright (C) 2024  Zhifeng Wang 王之枫
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, version 3 of the License only.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
+ */
+
 import * as Three from "three"
 import { SceneInfo } from "san"
 
@@ -128,7 +147,15 @@ function is_element_in_viewport(elem) {
     const bounding_box = elem.getBoundingClientRect()
     return bounding_box.bottom >= 0 && bounding_box.top <= window.innerHeight
 }
-
+/**
+ * 
+ * @param {*} elem_id 
+ * @param {{
+ * galaxy_param:
+ * {count: 3,radius: 5,branches: 3,randomness: 0.2,randomness_power: 3,inside_color: "#ff6030",outside_color: "#1b3984"}
+ * }} data 
+ * @returns 
+ */
 export function render(elem_id, data) {
     let galaxy_param = {
         count: 20000,

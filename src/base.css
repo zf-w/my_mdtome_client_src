@@ -1,24 +1,32 @@
-.theme-rust-navy {
-  --bg: hsl(226, 23%, 11%);
-  --fg: #bcbdd0;
+/**
+ * @license 
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * 
+ * Zhifeng's Markdown To Website Renderer
+ * Copyright (C) 2024  Zhifeng Wang 王之枫
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, version 3 of the License only.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
+ */
+
+.theme-zf-navy {
+  --bg: hsl(226, 22%, 12%);
+  --fg: #b8b5c5;
   --sidebar-bg: #282d3f;
-  --sidebar-fg: #c8c9db;
-  --sidebar-non-existant: #505274;
-  --sidebar-active: #2b79a2;
-  --sidebar-spacer: #2d334f;
+  --sidebar-fg: #f3f4ff;
   --scrollbar: var(--sidebar-fg);
   --icons: #737480;
   --icons-hover: #b7b9cc;
-  --links: #2b79a2;
-  --inline-code-color: #c5c8c6;
-  --theme-popup-bg: #161923;
-  --theme-popup-border: #737480;
-  --theme-hover: #282e40;
-  --quote-bg: hsl(226, 15%, 17%);
-  --quote-border: hsl(226, 15%, 22%);
-  --table-border-color: hsl(226, 23%, 16%);
-  --table-header-bg: hsl(226, 23%, 31%);
-  --table-alternate-bg: hsl(226, 23%, 14%);
+  --links: #00a6ff;
+  --inline-code-color: #6dff9b;
 }
 
 .theme-zf-honey {
@@ -31,6 +39,7 @@
   --icons: var(--sidebar-fg);
   --icons-hover: var(--sidebar-active);
   --links: #190f62;
+  --inline-code-color: #4b1a03;
 }
 
 *::-webkit-scrollbar {
@@ -45,16 +54,12 @@
   background-color: var(--scrollbar);
 }
 
-* {
-  box-sizing: border-box;
-}
-
 @media (max-width: 800px) {
   :root {
     --icon-size: 30px;
     --btnbar-width: 50px;
     --sidebar-width: 100vw;
-    --wrapper-content-width: 80vw;
+    --wrapper-width: 80vw;
   }
   .sidebar-on #\$wrapper {
     transform: none;
@@ -87,14 +92,101 @@
   }
 }
 
-body {
+body { 
+  background-color: var(--bg);
+  color: var(--fg);
   position: relative;
   margin: 0;
   z-index: 0;
-  background-color: var(--bg);
-  color: var(--fg);
 }
 
+/* Elements */
+a {
+  color: var(--links);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  color: var(--inline-code-color);
+}
+
+h1 {
+  color: var(--fg);
+  font-size: 2.7rem;
+  font-weight: 500;
+  line-height: 3.5rem;
+  margin: 3.75rem auto 1.75rem auto;
+  position: relative;
+}
+
+h2 {
+  color: var(--fg);
+  font-size: 2rem;
+  line-height: 2.25rem;
+  font-weight: 400;
+  margin: 2.2rem auto;
+  width: var(--wrapper-width);
+}
+
+h3 {
+  color: var(--fg);
+  font-size: 1.7rem;
+  font-weight: 400;
+  line-height: 2rem;
+  margin: 1.25rem auto;
+  width: var(--wrapper-width);
+}
+
+@media (max-width: 800px) {
+  p {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1400px) {
+  p {
+    font-size: 1.3rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  p {
+    font-size: 1.4rem;
+  }
+}
+
+p {
+  color: var(--fg);
+  font-weight: 100;
+  letter-spacing: 0.015em;
+  margin-top: 1.5rem;
+  margin-right: auto;
+  margin-bottom: 0.75rem;
+  margin-left: auto;
+}
+
+ul,ol {
+  color: var(--fg);
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  margin: 1rem auto 1rem auto;
+}
+
+blockquote { 
+  border-left: 4px var(--fg) solid;
+  font-size: 1.3rem;
+  font-weight: 200;
+  letter-spacing: 0.015em;
+  margin: 1rem auto;
+  padding: 1rem 0 1rem 2rem;
+}
+
+/* Components */
 #\$root-canvas {
   height: 100vh;
   position: fixed;
@@ -107,13 +199,6 @@ body {
   position: relative;
   margin-left: var(--btnbar-width);
   transition: margin-left 0.1s ease;
-  z-index: 2;
-}
-
-#\$wrapper-content {
-  margin: auto;
-  position: relative;
-  /* width: var(--wrapper-content-width); */
   z-index: 2;
 }
 
@@ -158,8 +243,8 @@ body {
 #\$left-nav {
   background-color: var(--sidebar-bg);
   box-sizing: border-box;
-  padding: 2%;
   color: var(--sidebar-fg);
+  padding: 2%;
   position: fixed;
   left: 0;
   top: 0;
@@ -172,11 +257,12 @@ body {
   -webkit-user-select: none;
   user-select: none;
   overflow: clip;
-  border-right: 1px solid var(--sidebar-fg); 
+  border-right: 1px solid var(--fg); 
   z-index: 1;
 }
 
 #\$left-nav a {
+  color: var(--sidebar-fg);
   display: block;
   font-size: 20px;
   margin-top: 1%;
@@ -237,107 +323,44 @@ body {
   transform: translateY(-219%) rotate(45deg);
 }
 
-/* Elements */
-a {
-  text-decoration: none;
-  color: var(--link);
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-#\$wrapper-content > a,
-#\$wrapper-content > blockquote,
-#\$wrapper-content > h1,
-#\$wrapper-content > h2,
-#\$wrapper-content > h3,
-#\$wrapper-content > h4,
-#\$wrapper-content > h5,
-#\$wrapper-content > h6,
-#\$wrapper-content > ol,
-#\$wrapper-content > p,
-#\$wrapper-content > ul {
-  width: var(--wrapper-content-width);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-h1 {
-  color: var(--fg);
-  font-size: 2.7rem;
-  font-weight: 500;
-  line-height: 3.5rem;
-  margin: 3.75rem auto 1.75rem auto;
-  position: relative;
-  z-index: 3;
-}
-
-h2 {
-  color: var(--fg);
-  font-size: 2rem;
-  line-height: 2.25rem;
-  font-weight: 400;
-  margin: 2.2rem auto;
-  width: var(--wrapper-content-width);
-}
-
-h3 {
-  color: var(--fg);
-  font-size: 1.7rem;
-  font-weight: 400;
-  line-height: 2rem;
-  margin: 1.25rem auto;
-  width: var(--wrapper-content-width);
-}
-
-@media (max-width: 800px) {
-  p {
-    font-size: 1.2rem;
-  }
-}
-
-@media (min-width: 800px) and (max-width: 1400px) {
-  p {
-    font-size: 1.3rem;
-  }
-}
-
-@media (min-width: 1400px) {
-  p {
-    font-size: 1.4rem;
-  }
-}
-
-p {
-  font-weight: 100;
-  letter-spacing: 0.015em;
-  margin-top: 1.5rem;
-  margin-right: auto;
-  margin-bottom: 0.75rem;
-  margin-left: auto;
-  width: var(--wrapper-content-width);
-  color: var(--fg);
-  z-index: 2;
-}
-
-ul,ol {
-  color: var(--sidebar-fg);
+#\$end_nav { 
   font-size: 1.5rem;
-  font-weight: 400;
-  letter-spacing: 0.015em;
+  font-weight: 700;
+  margin: 10% auto 20% auto;
   width: var(--wrapper-content-width);
-  margin: 1rem auto 1rem auto;
 }
 
-blockquote { 
-  border-left: 4px var(--fg) solid;
-  font-size: 1.3rem;
-  font-weight: 200;
-  letter-spacing: 0.015em;
-  margin: 1rem auto;
-  padding: 1rem 0 1rem 2rem;
+#\$end_nav a {
+  color: var(--fg);
+}
+
+.end_nav_row {
+  position: relative;
+}
+
+.end_nav_prev {
+  text-align: left;
+}
+
+.end_nav_next {
+  text-align: right;
+}
+
+#\$wrapper > a,
+#\$wrapper > blockquote,
+#\$wrapper > h1,
+#\$wrapper > h2,
+#\$wrapper > h3,
+#\$wrapper > h4,
+#\$wrapper > h5,
+#\$wrapper > h6,
+#\$wrapper > ol,
+#\$wrapper > p,
+#\$wrapper > pre,
+#\$wrapper > ul {
   width: var(--wrapper-content-width);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hidden {

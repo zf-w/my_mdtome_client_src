@@ -7,22 +7,25 @@
 <meta name="author" content="Zhifeng">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/src/base.css">
+<link rel="stylesheet" href="/src/graph.css">
 <link rel="stylesheet" href="/src/con4/board.css">
-<link rel="stylesheet" href="/src/zf/fun/galaxy.css">
+<link rel="stylesheet" href="/src/fun/galaxy.css">
 <link rel="stylesheet" href="/src/con4/game.css">
 <link rel="stylesheet" href="/src/con4/graph.css">
 <script src="/src/prelude.js"></script>
 <script type="importmap">
 {"imports":{
-"con4_board":"/src/con4/board.js",
 "three":"/src/three.js",
 "san":"/src/san.js",
-"zf_fun_galaxy":"/src/zf/fun/galaxy.js",
+"fun_galaxy":"/src/fun/galaxy.js",
+"graph": "/src/graph.js",
 "graph_ctrl": "/src/graph/ctrl.js",
 "con4":"/src/con4.js",
+"con4_board":"/src/con4/board.js",
 "con4_game": "/src/con4/game.js",
 "con4_graph": "/src/con4/graph.js",
-"con4_graph_util": "/src/con4/graph/util.js"}}
+"con4_graph_util": "/src/con4/graph/util.js"
+}}
 </script>
 </head>
 <body>
@@ -40,7 +43,7 @@
 </div>
 </section>
 <section id="$wrapper">
-<main id="$wrapper-content"><section id="$custom_0" class="zf_fun_galaxy"></section>
+<section id="$custom_0" class="fun_galaxy"></section>
 <h1>Lorem ipsum odor amet</h1>
 <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Per ullamcorper euismod curae rhoncus malesuada feugiat litora. Turpis fusce euismod habitant ut ullamcorper faucibus primis quisque euismod! Parturient fusce porttitor ultrices tristique erat. Netus nullam maximus sodales netus interdum nam felis nam. Tempor dignissim penatibus magna ligula; bibendum lorem urna. Ad proin massa consectetur id arcu quisque dictumst hac taciti. Purus senectus nulla nisl cras cursus fames. Magna vulputate facilisis metus facilisi quam fusce quam.</p>
 <h2>Tortor tellus taciti</h2>
@@ -54,11 +57,25 @@
 <p>Lorem ipsum odor amet, consectetuer adipiscing elit. In ante et cras elementum vivamus, curabitur gravida auctor. Rutrum mi litora vulputate tempor facilisi cursus neque donec.</p>
 </blockquote>
 <section id="$custom_1" class="con4_board"></section>
-<p>Maecenas commodo dolor rhoncus lacinia porttitor. Nostra cursus orci vitae viverra diam varius ad. Pellentesque vehicula facilisi himenaeos; rhoncus magna himenaeos quis. Enim nam aliquet penatibus efficitur auctor vulputate fames. Egestas purus nunc ad eu sodales sem. Lorem tristique odio pulvinar quam faucibus felis sed. Commodo ante lectus amet blandit in dui commodo augue purus. Magnis phasellus maecenas vitae cursus sed; imperdiet metus scelerisque primis. Potenti facilisi lorem pellentesque imperdiet lacus mattis risus.</p>
+<p>Link: <a href="#link">This is a link</a> Maecenas <code>hello world</code> commodo dolor rhoncus lacinia porttitor. Nostra cursus orci vitae viverra diam varius ad. Pellentesque vehicula facilisi himenaeos; rhoncus magna himenaeos quis. Enim nam aliquet penatibus efficitur auctor vulputate fames. Egestas purus nunc ad eu sodales sem. Lorem tristique odio pulvinar quam faucibus felis sed. Commodo ante lectus amet blandit in dui commodo augue purus. Magnis phasellus maecenas vitae cursus sed; imperdiet metus scelerisque primis. Potenti facilisi lorem pellentesque imperdiet lacus mattis risus.</p>
 <section id="$custom_2" class="con4_graph"></section>
-<section id="$custom_4" class="con4_graph"></section>
 <section id="$custom_3" class="con4_game"></section>
-</main>
+<section id="$custom_4" class="graph"></section>
+<section id="$end_nav">
+<div class="end_nav_row">
+<div class="end_nav_prev">
+<a href="#end_nav_parent_prev">&lt;end_nav_parent_prev</a>
+</div>
+<div class="end_nav_next">
+    <a href="#end_nav_parent_next">end_nav_parent_next&gt;</a>
+</div>
+</div>
+<div id="$end_nav_curr_row">
+<div id="$end_nav_curr_next">
+<a href="/zh/personality/diary/2024/07/">七月&gt;</a>
+</div>
+</div>
+</section>
 </body>
 </section>
 <script>
@@ -79,12 +96,13 @@ menu_icon_elem.addEventListener("click", () => {
 import * as con4_board from "con4_board"
 import * as three from "three"
 import * as san from "san"
-import * as zf_fun_galaxy from "zf_fun_galaxy"
+import * as fun_galaxy from "fun_galaxy"
 import * as con4 from "con4"
 import * as con4_game from "con4_game"
 import * as con4_graph from "con4_graph"
+import * as graph from "graph"
 
-zf_fun_galaxy.render("$custom_0", {
+fun_galaxy.render("$custom_0", {
     "galaxy_param": {
         "branches": 4
     },
@@ -102,15 +120,19 @@ con4_board.render("$custom_1", {
     "actions": "1231"
 })
 con4_graph.render("$custom_2", {
-    "load": ["/src/assets/c4w7h6.len5.20240803.gamegraph.json"],
+    "load": ["/assets/c4w7h6.len5.20240803.gamegraph.json"],
     "following_actions_string": "1234",
-    "api_url": "http://localhost:8080/api/c4w7h6/solve"
+    "api_url": "http://localhost:8080/api/c4w7h6/solve",
+    "camera_param": {
+        "z": 0.3
+    },
+    "orbit_ctrl_param": {
+        "auto_rotate_speed": 2
+    }
 })
 
-con4_graph.render("$custom_4", {
-    "load": ["/src/assets/c4w7h6.len5.20240803.gamegraph.json"],
-    "following_actions_string": "3333",
-    "api_url": "http://localhost:8080/api/c4w7h6/solve"
+graph.render("$custom_4", {
+    "load": ["/assets/Jagmesh1.20240531.graph.json"],
 })
 
 con4_game.render("$custom_3", {
