@@ -274,12 +274,16 @@ blockquote {
   padding-left: 2%;
   padding-top: 2%;
   padding-bottom: 2%;
-  border-left: 1px solid var(--fg);
+  border-left: 1px solid var(--sidebar-fg);
 }
 
 #\$left-nav .nav_active {
-  background-color: var(--fg);
+  background-color: var(--sidebar-fg);
   color: var(--bg);
+}
+
+#\$left-nav .nav_enc {
+  border-right: 1px solid var(--sidebar-fg);
 }
 
 #\$left-nav > .nav_root {
@@ -357,7 +361,8 @@ blockquote {
 #\$wrapper > ol,
 #\$wrapper > p,
 #\$wrapper > pre,
-#\$wrapper > ul {
+#\$wrapper > ul,
+#\$wrapper > table {
   width: var(--wrapper-content-width);
   margin-left: auto;
   margin-right: auto;
