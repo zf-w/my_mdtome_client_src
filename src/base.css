@@ -92,7 +92,7 @@
   }
 }
 
-body { 
+body {
   background-color: var(--bg);
   color: var(--fg);
   position: relative;
@@ -116,8 +116,8 @@ code {
 
 h1 {
   color: var(--fg);
-  font-size: 2.7rem;
-  font-weight: 500;
+  font-size: 3rem;
+  font-weight: 700;
   line-height: 3.5rem;
   margin: 3.75rem auto 1.75rem auto;
   position: relative;
@@ -125,17 +125,17 @@ h1 {
 
 h2 {
   color: var(--fg);
-  font-size: 2rem;
+  font-size: 2.3rem;
   line-height: 2.25rem;
-  font-weight: 400;
+  font-weight: 600;
   margin: 2.2rem auto;
   width: var(--wrapper-width);
 }
 
 h3 {
   color: var(--fg);
-  font-size: 1.7rem;
-  font-weight: 400;
+  font-size: 2rem;
+  font-weight: 600;
   line-height: 2rem;
   margin: 1.25rem auto;
   width: var(--wrapper-width);
@@ -145,17 +145,26 @@ h3 {
   p {
     font-size: 1.2rem;
   }
+  p:lang(zh) {
+    font-size: 1.1rem;
+  }
 }
 
 @media (min-width: 800px) and (max-width: 1400px) {
   p {
     font-size: 1.3rem;
   }
+  p:lang(zh) {
+    font-size: 1.2rem;
+  }
 }
 
 @media (min-width: 1400px) {
   p {
     font-size: 1.4rem;
+  }
+  p:lang(zh) {
+    font-size: 1.3rem;
   }
 }
 
@@ -169,7 +178,8 @@ p {
   margin-left: auto;
 }
 
-ul,ol {
+ul,
+ol {
   color: var(--fg);
   font-size: 1.1rem;
   font-weight: 400;
@@ -177,7 +187,7 @@ ul,ol {
   margin: 1rem auto 1rem auto;
 }
 
-blockquote { 
+blockquote {
   border-left: 4px var(--fg) solid;
   font-size: 1.3rem;
   font-weight: 200;
@@ -188,10 +198,19 @@ blockquote {
 
 /* Components */
 #\$root-canvas {
+  width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0;
+
+  z-index: 1;
+}
+
+.fullscreen_canvas {
   width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
   z-index: 1;
 }
 
@@ -257,7 +276,7 @@ blockquote {
   -webkit-user-select: none;
   user-select: none;
   overflow: clip;
-  border-right: 1px solid var(--fg); 
+  border-right: 1px solid var(--fg);
   z-index: 1;
 }
 
@@ -275,6 +294,10 @@ blockquote {
   padding-top: 2%;
   padding-bottom: 2%;
   border-left: 1px solid var(--fg);
+}
+
+#\$left-nav .nav_enc {
+  border-bottom: 1px solid var(--fg);
 }
 
 #\$left-nav .nav_active {
@@ -323,7 +346,7 @@ blockquote {
   transform: translateY(-219%) rotate(45deg);
 }
 
-#\$end_nav { 
+#\$end_nav {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 10% auto 20% auto;
@@ -346,23 +369,12 @@ blockquote {
   text-align: right;
 }
 
-#\$wrapper > a,
-#\$wrapper > blockquote,
-#\$wrapper > h1,
-#\$wrapper > h2,
-#\$wrapper > h3,
-#\$wrapper > h4,
-#\$wrapper > h5,
-#\$wrapper > h6,
-#\$wrapper > ol,
-#\$wrapper > p,
-#\$wrapper > pre,
-#\$wrapper > ul {
+#\$wrapper > *:not(section) {
   width: var(--wrapper-content-width);
   margin-left: auto;
   margin-right: auto;
 }
 
 .hidden {
-  visibility:hidden !important;
+  visibility: hidden !important;
 }
