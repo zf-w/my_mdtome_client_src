@@ -392,7 +392,7 @@ try {
   const root_canvas = document.getElementById("$root-canvas");
   const san_context = new San();
   san_context.init(root_canvas);
-  window.mdbook.san_context = san_context;
+  window.mdtome.san_context = san_context;
 } catch {
   console.error("Failed to create the root canvas");
 }

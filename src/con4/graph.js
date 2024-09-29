@@ -98,7 +98,7 @@ function render_with_game_graph(elem_id, game_graph, param) {
       last_update = now;
     }
   );
-  const san_context = window.mdbook.san_context;
+  const san_context = window.mdtome.san_context;
   const scene_i = san_context.add(scene_info);
   san_context.prepare_fullscreen([scene_i], elem_mut_ref);
 
@@ -187,7 +187,7 @@ function render_with_game_graph(elem_id, game_graph, param) {
  * }} param
  */
 export function render(elem_id, param) {
-  let res = window.mdbook.fetch_static_json_helper(param.load[0]);
+  let res = window.mdtome.fetch_static_json_helper(param.load[0]);
   if (res.data != undefined) {
     render_with_game_graph(elem_id, res.param, param);
   } else {
