@@ -388,8 +388,10 @@ export function set_orbit_ctrl_from_param(orbit_ctrl, orbit_ctrl_param) {
   }
 }
 
+const ROOT_CANVAS_ID = "$root_canvas";
+
 try {
-  const root_canvas = document.getElementById("$root-canvas");
+  const root_canvas = document.getElementById(ROOT_CANVAS_ID);
   const san_context = new San();
   san_context.init(root_canvas);
   window.mdtome.san_context = san_context;

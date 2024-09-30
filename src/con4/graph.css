@@ -35,6 +35,7 @@
   display: block;
   /* margin: 0 auto 5% auto; */
   position: relative;
+  -webkit-user-select: none;
   user-select: none;
   z-index: 2;
 }
