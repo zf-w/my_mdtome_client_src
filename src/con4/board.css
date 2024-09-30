@@ -16,52 +16,52 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
  */
- 
+
 .con4_board_p {
-    dominant-baseline: middle;
-    font: 80% sans-serif;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    user-select: none;
-    width: 100%;
+  dominant-baseline: middle;
+  font: 80% sans-serif;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  user-select: none;
+  width: 100%;
 }
 
 .con4_board_p0 {
-    stroke: var(--bg);
+  stroke: var(--bg);
 }
 
 .con4_board {
-    box-sizing: border-box;
-    display: block;
-    margin: 5% auto;
-    position: relative;
+  box-sizing: border-box;
+  display: block;
+  margin: 5% auto;
+  position: relative;
 }
 
 .con4_board_inner {
-    border: 2px solid var(--fg);
-    border-radius: 2%;
-    display: block;
-    position: relative;
+  border: 2px solid var(--fg);
+  border-radius: 2%;
+  display: block;
+  position: relative;
 }
 
 @media (max-width: 800px) {
-    .con4_board {
-        aspect-ratio: 1.5;
-        padding: 3% 10%;
-        width: 100%;
-    }
+  .con4_board {
+    aspect-ratio: 1.5;
+    padding: 3% 10%;
+    width: 100%;
+  }
 }
-  
+
 @media (min-width: 800px) and (max-width: 1400px) {
-    .con4_board {
-        aspect-ratio: 2;
-        padding: 3% 20%;
-    }
+  .con4_board {
+    aspect-ratio: 2;
+    padding: 3% 20%;
+  }
 }
-  
+
 @media (min-width: 1400px) {
-    .con4_board {
-        aspect-ratio: 3;
-        padding: 3% 30%;
-    }
+  .con4_board {
+    aspect-ratio: 3;
+    padding: 3% 30%;
+  }
 }

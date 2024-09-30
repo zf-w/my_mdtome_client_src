@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
  */
 
-.theme-zf-navy {
+.theme_zf_navy {
   --bg: hsl(226, 22%, 12%);
   --fg: #b8b5c5;
   --sidebar-bg: #282d3f;
@@ -29,7 +29,7 @@
   --inline-code-color: #6dff9b;
 }
 
-.theme-zf-honey {
+.theme_zf_honey {
   --bg: #f5f2e8;
   --fg: #600000;
   --sidebar-bg: #f5f2e8e6;
@@ -60,10 +60,20 @@
     --btnbar-width: 50px;
     --sidebar-width: 100vw;
     --wrapper-width: 80vw;
+
+    --h1-font-size: 2.7rem;
+    --h2-font-size: 2.3rem;
+    --h3-font-size: 1.8rem;
+    --p-font-size: 1.2rem;
   }
-  .sidebar-on #\$wrapper {
+  :root:lang(zh) {
+    --h1-font-size: 2.3rem;
+    --h2-font-size: 1.8rem;
+    --h3-font-size: 1.3rem;
+    --p-font-size: 1.1rem;
+  }
+  .sidebar_on #\$wrapper {
     transform: none;
-    display: none;
   }
 }
 
@@ -73,6 +83,17 @@
     --btnbar-width: 50px;
     --sidebar-width: 20vw;
     --wrapper-content-width: 66vw;
+
+    --h1-font-size: 2.9rem;
+    --h2-font-size: 2.4rem;
+    --h3-font-size: 1.9rem;
+    --p-font-size: 1.3rem;
+  }
+  :root:lang(zh) {
+    --h1-font-size: 2.4rem;
+    --h2-font-size: 1.9rem;
+    --h3-font-size: 1.4rem;
+    --p-font-size: 1.2rem;
   }
 }
 
@@ -82,17 +103,28 @@
     --btnbar-width: 50px;
     --sidebar-width: 15vw;
     --wrapper-content-width: 55vw;
+
+    --h1-font-size: 3rem;
+    --h2-font-size: 2.5rem;
+    --h3-font-size: 2rem;
+    --p-font-size: 1.7rem;
+  }
+  :root:lang(zh) {
+    --h1-font-size: 2.5rem;
+    --h2-font-size: 2rem;
+    --h3-font-size: 1.5rem;
+    --p-font-size: 1.3rem;
   }
 }
 
 @media (min-width: 800px) {
-  .sidebar-on #\$wrapper {
+  .sidebar_on #\$wrapper {
     transform: none;
     margin-left: calc(var(--sidebar-width) + var(--btnbar-width));
   }
 }
 
-body { 
+body {
   background-color: var(--bg);
   color: var(--fg);
   position: relative;
@@ -116,8 +148,8 @@ code {
 
 h1 {
   color: var(--fg);
-  font-size: 2.7rem;
-  font-weight: 500;
+  font-size: var(--h1-font-size);
+  font-weight: 700;
   line-height: 3.5rem;
   margin: 3.75rem auto 1.75rem auto;
   position: relative;
@@ -125,42 +157,25 @@ h1 {
 
 h2 {
   color: var(--fg);
-  font-size: 2rem;
+  font-size: var(--h2-font-size);
   line-height: 2.25rem;
-  font-weight: 400;
+  font-weight: 600;
   margin: 2.2rem auto;
   width: var(--wrapper-width);
 }
 
 h3 {
   color: var(--fg);
-  font-size: 1.7rem;
-  font-weight: 400;
+  font-size: var(--h2-font-size);
+  font-weight: 500;
   line-height: 2rem;
   margin: 1.25rem auto;
   width: var(--wrapper-width);
 }
 
-@media (max-width: 800px) {
-  p {
-    font-size: 1.2rem;
-  }
-}
-
-@media (min-width: 800px) and (max-width: 1400px) {
-  p {
-    font-size: 1.3rem;
-  }
-}
-
-@media (min-width: 1400px) {
-  p {
-    font-size: 1.4rem;
-  }
-}
-
 p {
   color: var(--fg);
+  font-size: var(--p-font-size);
   font-weight: 100;
   letter-spacing: 0.015em;
   margin-top: 1.5rem;
@@ -169,7 +184,8 @@ p {
   margin-left: auto;
 }
 
-ul,ol {
+ul,
+ol {
   color: var(--fg);
   font-size: 1.1rem;
   font-weight: 400;
@@ -177,7 +193,7 @@ ul,ol {
   margin: 1rem auto 1rem auto;
 }
 
-blockquote { 
+blockquote {
   border-left: 4px var(--fg) solid;
   font-size: 1.3rem;
   font-weight: 200;
@@ -187,11 +203,20 @@ blockquote {
 }
 
 /* Components */
-#\$root-canvas {
+#\$root_canvas {
+  width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0;
+
+  z-index: 1;
+}
+
+.fullscreen_canvas {
   width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
   z-index: 1;
 }
 
@@ -202,7 +227,7 @@ blockquote {
   z-index: 2;
 }
 
-.icon {
+#\$menu_icon {
   display: inline-block;
   cursor: pointer;
   text-align: center;
@@ -214,11 +239,11 @@ blockquote {
   user-select: none;
 }
 
-.icon:hover {
+#\$menu_icon:hover {
   color: var(--icons-hover);
 }
 
-#\$menu-icon > * {
+#\$menu_icon > * {
   width: 100%;
   /* //35px; */
   height: 14.3%;
@@ -240,7 +265,7 @@ blockquote {
   z-index: 4;
 }
 
-#\$left-nav {
+#\$left_nav {
   background-color: var(--sidebar-bg);
   box-sizing: border-box;
   color: var(--sidebar-fg);
@@ -257,18 +282,18 @@ blockquote {
   -webkit-user-select: none;
   user-select: none;
   overflow: clip;
-  border-right: 1px solid var(--fg); 
-  z-index: 1;
+  border-right: 1px solid var(--fg);
+  z-index: 3;
 }
 
-#\$left-nav a {
+#\$left_nav a {
   color: var(--sidebar-fg);
   display: block;
   font-size: 20px;
   margin-top: 1%;
 }
 
-#\$left-nav .nav_pad {
+#\$left_nav .nav_pad {
   text-align: left;
   margin-left: 2%;
   padding-left: 2%;
@@ -277,19 +302,23 @@ blockquote {
   border-left: 1px solid var(--fg);
 }
 
-#\$left-nav .nav_active {
+#\$left_nav .nav_enc {
+  border-bottom: 1px solid var(--fg);
+}
+
+#\$left_nav .nav_active {
   background-color: var(--fg);
   color: var(--bg);
 }
 
-#\$left-nav > .nav_root {
+#\$left_nav > .nav_root {
   margin-left: 2%;
   padding-left: 2%;
   padding-top: 2%;
   padding-bottom: 2%;
 }
 
-#\$left-nav > footer {
+#\$left_nav > footer {
   position: relative;
   bottom: 0;
   left: 0;
@@ -298,32 +327,32 @@ blockquote {
   padding: 0 2%;
 }
 
-.sidebar-on #\$left-nav {
+.sidebar_on #\$left_nav {
   transform: translateX(calc(0% + var(--btnbar-width)));
   /* Animation */
   transition: transform 0.5s ease;
 }
 
-.sidebar-on #\$btnbar {
+.sidebar_on #\$btnbar {
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--fg);
   transition: left 0.5s ease;
   /* left: var(--sidebar-width); */
 }
 
-.sidebar-on #\$menu-icon > #\$menu-bar1 {
+.sidebar_on #\$menu_icon > #\$menu_bar1 {
   transform: translateY(219%) rotate(-45deg);
 }
 
-.sidebar-on #\$menu-icon > #\$menu-bar2 {
+.sidebar_on #\$menu_icon > #\$menu_bar2 {
   opacity: 0;
 }
 
-.sidebar-on #\$menu-icon > #\$menu-bar3 {
+.sidebar_on #\$menu_icon > #\$menu_bar3 {
   transform: translateY(-219%) rotate(45deg);
 }
 
-#\$end_nav { 
+#\$end_nav {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 10% auto 20% auto;
@@ -346,23 +375,12 @@ blockquote {
   text-align: right;
 }
 
-#\$wrapper > a,
-#\$wrapper > blockquote,
-#\$wrapper > h1,
-#\$wrapper > h2,
-#\$wrapper > h3,
-#\$wrapper > h4,
-#\$wrapper > h5,
-#\$wrapper > h6,
-#\$wrapper > ol,
-#\$wrapper > p,
-#\$wrapper > pre,
-#\$wrapper > ul {
+#\$wrapper > *:not(section) {
   width: var(--wrapper-content-width);
   margin-left: auto;
   margin-right: auto;
 }
 
 .hidden {
-  visibility:hidden !important;
+  visibility: hidden !important;
 }

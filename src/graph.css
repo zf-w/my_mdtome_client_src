@@ -40,9 +40,18 @@
   cursor: grab;
   display: block;
   margin: auto;
+  position: relative;
   width: 100%;
+  z-index: 2;
 }
 
-.graph:active {
+.graph_canvas {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.graph_canvas:active {
   cursor: grabbing;
 }
