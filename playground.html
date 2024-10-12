@@ -29,18 +29,61 @@
 </script>
 </head>
 <body>
-<canvas id="$root-canvas"></canvas>
+<canvas id="$root_canvas"></canvas>
 <section id="$btnbar">
-<div class="icon" id="$menu-icon">
-<div id="$menu-bar1"></div>
-<div id="$menu-bar2"></div>
-<div id="$menu-bar3"></div>
+<div class="icon" id="$menu_icon">
+<div id="$menu_bar1"></div>
+<div id="$menu_bar2"></div>
+<div id="$menu_bar3"></div>
 </div>
 </section>
-<section id="$left-nav">
-<div class="nav-root">
-<a href="/">Zhifeng</a>
+<section id="$left_nav">
+<h4>Contents</h4>
+<div id="$nav_root">
+<a class="nav_active" href="/">Main</a>
+<div class="nav_pad">
+<a href="/projects/">Projects</a>
+<div class="nav_pad">
+<a class="nav_enc" href="#">Game Study</a>
+<a class="nav_enc" href="#">Graph Viz</a>
+<a class="nav_enc" href="#">Markdown Tome</a>
+<a class="nav_enc" href="#"> Barnes-Hut Tree</a>
 </div>
+<a href="#">Timeline</a>
+<a href="#">References</a>
+<a href="#">Thank You List</a>
+<a href="#">Lost and Found</a>
+</div>
+</div>
+<div id="$nav_theme">
+<h4>Themes</h4>
+<button class="nav_theme_btn" id="$theme_zf_navy_btn">Navy Blue</button>
+<button class="nav_theme_btn" id="$theme_zf_honey_btn">Honey</button>
+</div>
+<div id="$nav_lang">
+<h4>Languages</h4>
+<a class="nav_lang_link" href="/">English</a>
+</div>
+<div id="$nav_auth">
+<div id="$nav_auth_guest">
+<h4>Authentication</h4>
+<form id="$nav_auth_form">
+<span>Username:</span>
+<input id="$nav_auth_username_input" type="text" aria-label="Username"/>
+<span>Password:</span>
+<input id="$nav_auth_password_input" type="password" aria-label="Password"/>
+<div id="$nav_auth_submit_btn_container">
+<input id="$nav_auth_submit_btn" type="submit"/>
+</form>
+</div>
+<div id="$nav_auth_logged_in">
+</div>
+</div>
+</div>
+<footer id="$nav_footer">
+<h5>Designed by Zhifeng</h5>
+<h5>&copy; Zhifeng 2024</h5>
+</footer>
 </section>
 <section id="$wrapper">
 <section id="$custom_0" class="fun_galaxy"></section>
@@ -78,20 +121,7 @@
 </section>
 </body>
 </section>
-<script>
-const menu_icon_elem = document.getElementById("$menu-icon")
-menu_icon_elem.addEventListener("click", () => {
-    const html = document.getElementById("$root")
-    if (html) {
-        if (html.classList.contains(SIDEBAR_ON_CLASS)) {
-        localStorage.setItem(SIDEBAR_STORAGE_KEY, "off")
-        } else {
-        localStorage.setItem(SIDEBAR_STORAGE_KEY, "on")
-        }
-        html.classList.toggle(SIDEBAR_ON_CLASS)
-    }
-})
-</script>
+<script>post_content_load_procedure();</script>
 <script type="module">
 import * as con4_board from "con4_board"
 import * as three from "three"
@@ -127,7 +157,7 @@ con4_graph.render("$custom_2", {
         "z": 0.3
     },
     "orbit_ctrl_param": {
-        "auto_rotate_speed": 2
+        "auto_rotate_speed": 0.3
     }
 })
 
@@ -135,13 +165,13 @@ graph.render("$custom_4", {
     "load": ["/assets/Jagmesh1.20240531.graph.json"],
 })
 
-con4_game.render("$custom_3", {
-    "w":7,
-    "h":6,
-    "actions": "1234",
+// con4_game.render("$custom_3", {
+//     "w":7,
+//     "h":6,
+//     "actions": "1234",
     
-    "api_url": "http://localhost:8080/api/c4w7h6/solve"
-})
+//     "api_url": "http://localhost:8080/api/c4w7h6/solve"
+// })
 </script>
 </body>
 </html>

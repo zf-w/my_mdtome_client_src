@@ -30,16 +30,16 @@
 }
 
 .theme_zf_honey {
-  --bg: #f5f2e8;
+  --bg: #f3fae8;
   --fg: #600000;
-  --sidebar-bg: #f5f2e8e6;
+  --sidebar-bg: #f5f2e8;
   --sidebar-fg: #690000;
   --sidebar-active: #a801a8;
   --scrollbar: var(--sidebar-fg);
   --icons: var(--sidebar-fg);
   --icons-hover: var(--sidebar-active);
-  --links: #190f62;
-  --inline-code-color: #4b1a03;
+  --links: #1e00ff;
+  --inline-code-color: #e100ff;
 }
 
 *::-webkit-scrollbar {
@@ -65,6 +65,8 @@
     --h2-font-size: 2.3rem;
     --h3-font-size: 1.8rem;
     --p-font-size: 1.2rem;
+    --sidebar-font-size: 1.1rem;
+    --sidebar-title-size: 1.3rem;
   }
   :root:lang(zh) {
     --h1-font-size: 2.3rem;
@@ -88,6 +90,8 @@
     --h2-font-size: 2.4rem;
     --h3-font-size: 1.9rem;
     --p-font-size: 1.3rem;
+    --sidebar-font-size: 1.1rem;
+    --sidebar-title-size: 1.3rem;
   }
   :root:lang(zh) {
     --h1-font-size: 2.4rem;
@@ -104,16 +108,18 @@
     --sidebar-width: 15vw;
     --wrapper-content-width: 55vw;
 
-    --h1-font-size: 3rem;
-    --h2-font-size: 2.5rem;
-    --h3-font-size: 2rem;
-    --p-font-size: 1.7rem;
+    --h1-font-size: 2.7rem;
+    --h2-font-size: 2.2rem;
+    --h3-font-size: 1.7rem;
+    --p-font-size: 1.2rem;
+    --sidebar-font-size: 1.1rem;
+    --sidebar-title-size: 1.3rem;
   }
   :root:lang(zh) {
-    --h1-font-size: 2.5rem;
-    --h2-font-size: 2rem;
-    --h3-font-size: 1.5rem;
-    --p-font-size: 1.3rem;
+    --h1-font-size: 2.3rem;
+    --h2-font-size: 1.8rem;
+    --h3-font-size: 1.3rem;
+    --p-font-size: 1rem;
   }
 }
 
@@ -166,11 +172,18 @@ h2 {
 
 h3 {
   color: var(--fg);
-  font-size: var(--h2-font-size);
+  font-size: var(--h3-font-size);
   font-weight: 500;
   line-height: 2rem;
   margin: 1.25rem auto;
   width: var(--wrapper-width);
+}
+
+h4 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  line-height: 1.3rem;
+  margin: 0.5rem 0;
 }
 
 p {
@@ -200,6 +213,10 @@ blockquote {
   letter-spacing: 0.015em;
   margin: 1rem auto;
   padding: 1rem 0 1rem 2rem;
+}
+
+pre {
+  white-space: pre-wrap;
 }
 
 /* Components */
@@ -281,7 +298,8 @@ blockquote {
 
   -webkit-user-select: none;
   user-select: none;
-  overflow: clip;
+  overflow-x: clip;
+  overflow-y: scroll;
   border-right: 1px solid var(--fg);
   z-index: 3;
 }
@@ -289,14 +307,17 @@ blockquote {
 #\$left_nav a {
   color: var(--sidebar-fg);
   display: block;
-  font-size: 20px;
+  font-size: var(--sidebar-font-size);
   margin-top: 1%;
+}
+
+#\$left_nav h4 {
+  font-size: var(--sidebar-title-size);
 }
 
 #\$left_nav .nav_pad {
   text-align: left;
-  margin-left: 2%;
-  padding-left: 2%;
+  padding-left: 4%;
   padding-top: 2%;
   padding-bottom: 2%;
   border-left: 1px solid var(--fg);
@@ -311,20 +332,99 @@ blockquote {
   color: var(--bg);
 }
 
-#\$left_nav > .nav_root {
-  margin-left: 2%;
-  padding-left: 2%;
+#\$nav_root,
+#\$nav_theme,
+#\$nav_lang,
+#\$nav_auth {
+  padding-left: 4%;
   padding-top: 2%;
   padding-bottom: 2%;
 }
 
-#\$left_nav > footer {
-  position: relative;
+#\$nav_root {
+  height: 60%;
+  overflow-y: scroll;
+}
+
+.nav_theme_btn {
+  appearance: none;
+  background-color: transparent;
+  border: solid 1px transparent;
+  box-sizing: border-box;
+  color: var(--sidebar-fg);
+  cursor: pointer;
+  display: block;
+  font-size: var(--sidebar-title-size);
+  font-weight: 200;
+  width: 100%;
+}
+
+.nav_theme_btn:hover {
+  border: solid 1px var(--sidebar-fg);
+  box-sizing: border-box;
+}
+
+.theme_zf_navy #\$theme_zf_navy_btn {
+  background-color: var(--sidebar-fg);
+  color: var(--sidebar-bg);
+}
+
+.theme_zf_honey #\$theme_zf_honey_btn {
+  background-color: var(--sidebar-fg);
+  color: var(--sidebar-bg);
+}
+
+.nav_lang_link {
+  font-size: var(--sidebar-font-size);
+  text-align: center;
+}
+
+#\$nav_auth_guest {
+  display: none;
+}
+
+#\$nav_auth_logged_in {
+  display: none;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.nav_auth_logged_in #\$nav_auth_logged_in {
+  display: block;
+}
+
+.nav_auth_guest #\$nav_auth_guest {
+  display: block;
+}
+
+#\$nav_auth_username_input,
+#\$nav_auth_password_input {
+  width: 100%;
+}
+
+#\$nav_auth_submit_btn_container {
+  margin-top: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+#\$nav_auth_submit_btn {
+  background-color: transparent;
+  color: var(--sidebar-fg);
+  cursor: pointer;
+}
+
+#\$nav_auth_submit_btn:hover {
+  background-color: var(--sidebar-fg);
+  color: var(--sidebar-bg);
+}
+
+#\$nav_footer {
   bottom: 0;
   left: 0;
+  position: relative;
+  text-align: center;
   width: 100%;
-  margin: 2.5rem 2%;
-  padding: 0 2%;
 }
 
 .sidebar_on #\$left_nav {
