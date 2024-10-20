@@ -304,11 +304,17 @@ pre {
   z-index: 3;
 }
 
-#\$left_nav a {
+#\$nav_root a {
+  align-items: center;
   color: var(--sidebar-fg);
-  display: block;
+  display: flex;
   font-size: var(--sidebar-font-size);
-  margin-top: 1%;
+  margin-top: 0.6rem;
+}
+
+#\$left_nav .left_nav_title {
+  padding-left: 0.3rem;
+  width: calc(100% - 20px);
 }
 
 #\$left_nav h4 {
@@ -318,13 +324,7 @@ pre {
 #\$left_nav .nav_pad {
   text-align: left;
   padding-left: 4%;
-  padding-top: 2%;
-  padding-bottom: 2%;
   border-left: 1px solid var(--fg);
-}
-
-#\$left_nav .nav_enc {
-  border-bottom: 1px solid var(--fg);
 }
 
 #\$left_nav .nav_active {
@@ -341,11 +341,6 @@ pre {
   padding-bottom: 2%;
 }
 
-#\$nav_root {
-  height: 60%;
-  overflow-y: scroll;
-}
-
 .nav_theme_btn {
   appearance: none;
   background-color: transparent;
@@ -354,8 +349,7 @@ pre {
   color: var(--sidebar-fg);
   cursor: pointer;
   display: block;
-  font-size: var(--sidebar-title-size);
-  font-weight: 200;
+  font-size: var(--sidebar-font-size);
   width: 100%;
 }
 
@@ -375,8 +369,11 @@ pre {
 }
 
 .nav_lang_link {
+  color: var(--sidebar-fg);
+  display: block;
   font-size: var(--sidebar-font-size);
   text-align: center;
+  width: 100%;
 }
 
 #\$nav_auth_guest {

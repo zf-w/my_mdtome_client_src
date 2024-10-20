@@ -150,7 +150,7 @@ function is_element_in_viewport(elem) {
 }
 /**
  *
- * @param {*} elem_id
+ * @param {string} elem_id
  * @param {{
  * galaxy_param:
  * {count: 3,radius: 5,branches: 3,randomness: 0.2,randomness_power: 3,inside_color: "#ff6030",outside_color: "#1b3984"}
