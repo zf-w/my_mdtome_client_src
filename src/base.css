@@ -63,7 +63,7 @@
 
     --h1-font-size: 2.7rem;
     --h2-font-size: 2.3rem;
-    --h3-font-size: 1.8rem;
+    --h3-font-size: 1.9rem;
     --p-font-size: 1.2rem;
     --sidebar-font-size: 1.1rem;
     --sidebar-title-size: 1.3rem;
@@ -88,7 +88,7 @@
 
     --h1-font-size: 2.9rem;
     --h2-font-size: 2.4rem;
-    --h3-font-size: 1.9rem;
+    --h3-font-size: 2rem;
     --p-font-size: 1.3rem;
     --sidebar-font-size: 1.1rem;
     --sidebar-title-size: 1.3rem;
@@ -96,7 +96,7 @@
   :root:lang(zh) {
     --h1-font-size: 2.4rem;
     --h2-font-size: 1.9rem;
-    --h3-font-size: 1.4rem;
+    --h3-font-size: 1.7rem;
     --p-font-size: 1.2rem;
   }
 }
@@ -110,7 +110,7 @@
 
     --h1-font-size: 2.7rem;
     --h2-font-size: 2.2rem;
-    --h3-font-size: 1.7rem;
+    --h3-font-size: 1.9rem;
     --p-font-size: 1.2rem;
     --sidebar-font-size: 1.1rem;
     --sidebar-title-size: 1.3rem;
@@ -173,7 +173,7 @@ h2 {
 h3 {
   color: var(--fg);
   font-size: var(--h3-font-size);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 2rem;
   margin: 1.25rem auto;
   width: var(--wrapper-width);
@@ -458,6 +458,11 @@ pre {
 
 #\$end_nav a {
   color: var(--fg);
+}
+
+#\$end_timestamp {
+  text-align: center;
+  width: 100%;
 }
 
 .end_nav_row {
