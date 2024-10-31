@@ -93,7 +93,7 @@ export function render_actions_list(elem_id, data) {
     elem.innerHTML = make_board_elem_string(actions_list, w, h);
 }
 
-export function render(elem_id, data) {
+export function render_con4_board(elem_id, data) {
     const actions_string = data.actions;
     const w = data.w;
     const h = data.h;

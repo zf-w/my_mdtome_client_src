@@ -186,7 +186,7 @@ function render_with_game_graph(elem_id, game_graph, param) {
  * }
  * }} param
  */
-export function render(elem_id, param) {
+export function render_con4_graph(elem_id, param) {
   let res = window.mdtome.fetch_static_json_helper(param.load[0]);
   if (res.data != undefined) {
     render_with_game_graph(elem_id, res.param, param);

@@ -25,7 +25,7 @@ import * as san from "san";
  * @param {*} graph
  * @param {*} config
  */
-function render_graph(mod_root_elem, graph, config) {
+function render_graph_helper(mod_root_elem, graph, config) {
   const scene = new three.Scene();
 
   const camera = new three.PerspectiveCamera(75, 1.0, 0.01, 10);
@@ -98,7 +98,7 @@ function render_graph(mod_root_elem, graph, config) {
  *  load: string[]
  * }} curr_data
  */
-export function render(id_string, curr_data) {
+export function render_graph(id_string, curr_data) {
   const mod_root_html_elem = document.getElementById(id_string);
   if (
     curr_data.load == undefined ||
@@ -111,14 +111,10 @@ export function render(id_string, curr_data) {
   const res = window.mdtome.fetch_static_json_helper(curr_data.load[0]);
 
   if (res.data != undefined) {
-    render_graph(mod_root_html_elem, res.data, curr_data);
+    render_graph_helper(mod_root_html_elem, res.data, curr_data);
   } else {
     res.promise.then((graph) => {
-      render_graph(mod_root_html_elem, graph, curr_data);
+      render_graph_helper(mod_root_html_elem, graph, curr_data);
     });
   }
-}
-
-export function print() {
-  return "lala";
 }

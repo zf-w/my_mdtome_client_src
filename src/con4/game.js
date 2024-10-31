@@ -303,7 +303,7 @@ export function add_listeners_to_con4_game_ctrl(
  * @param {string} elem_id
  * @param {{w: number, h: number, actions: string, api_url: string}} param
  */
-export function render(elem_id, param, callback_fn) {
+export function render_con4_game(elem_id, param, callback_fn) {
   const w = param.w;
   const h = param.h;
   const elem_mut_ref = document.getElementById(elem_id);

@@ -157,7 +157,7 @@ function is_element_in_viewport(elem) {
  * }} data
  * @returns
  */
-export function render(elem_id, data) {
+export function render_fun_galaxy(elem_id, data) {
   let galaxy_param = {
     count: 20000,
     radius: 5,
