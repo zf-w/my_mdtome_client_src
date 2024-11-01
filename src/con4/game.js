@@ -104,7 +104,7 @@ export function make_con4_game_inner_string(
       following_actions_list.length == 0 ? " hidden" : ""
     }">Undo</button>    
     </div>
-    <div class="con4_game_loading_msg">Loading</div>
+    <div class="con4_game_loading_msg">Loading, might time-out, working on accelerating this.</div>
 </section>`,
     {
       board_id,
@@ -146,6 +146,7 @@ export function make_con4_game_logic_callbacks(
   const modify_ctrl_panel = () => {
     let end = false;
     if (api_data == undefined) {
+      fetch_fn();
       elem_mut_ref.classList.add(LOADING_CLASSNAME);
     } else {
       elem_mut_ref.classList.remove(LOADING_CLASSNAME);

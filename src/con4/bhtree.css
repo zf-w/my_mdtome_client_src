@@ -1,3 +1,22 @@
+/**
+ * @license
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * Zhifeng's Markdown To Website Renderer
+ * Copyright (C) 2024  Zhifeng Wang 王之枫
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, version 3 of the License only.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 .con4_bhtree {
   display: flex;
   flex-direction: row-reverse;
@@ -45,7 +64,6 @@
   color: var(--fg);
   display: block;
   font-size: 1.5rem;
-  padding: 0.5rem;
   text-align: left;
   width: 100%;
 }
@@ -58,9 +76,9 @@
 
 .con4_bhtree_active_states {
   /* margin: 0.5rem; */
+  font-size: 2rem;
   padding: 0.2rem;
   position: relative;
-  font-size: 2rem;
   z-index: 5;
 }
 
@@ -69,18 +87,45 @@
   text-align: center;
 }
 
-.con4_bhtree_active_states button {
+.con4_bhtree_active_states_list {
+  max-height: 50vh;
+  overflow-y: scroll;
+}
+
+.con4_bhtree_state_btn {
   background-color: transparent;
   border: 1px solid var(--fg);
+  box-sizing: border-box;
   color: var(--fg);
-  display: block;
+  display: flex;
   font-size: 1.5rem;
-  padding: 0.5rem;
+  justify-content: space-between;
   text-align: left;
   width: 100%;
 }
 
-.con4_bhtree_active_states button:hover {
+.con4_bhtree_rm:hover {
+  background-color: var(--fg);
+  color: var(--bg);
+}
+
+.con4_bhtree_state_btn > button {
+  background-color: transparent;
+  border: 0px;
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+.con4_bhtree_state_btn.active,
+.con4_bhtree_state_btn.active > button {
+  background-color: var(--fg);
+  color: var(--bg);
+}
+
+.con4_bhtree_state_btn:hover,
+.con4_bhtree_state_btn:hover > button {
   background-color: var(--fg);
   color: var(--bg);
   cursor: pointer;

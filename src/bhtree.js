@@ -1,3 +1,22 @@
+/**
+ * @license
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * Zhifeng's Markdown To Website Renderer
+ * Copyright (C) 2024  Zhifeng Wang 王之枫
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, version 3 of the License only.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import * as three from "./three.js";
 
 /**
@@ -39,18 +58,18 @@ export class BarnesHutTreeSer {
 export class BarnesHutTree {
   /**
    *
-   * @param {BarnesHutTreeSer} barnes_hut_tree_obj
+   * @param {BarnesHutTreeSer} barnes_hut_tree_ser
    */
-  constructor(barnes_hut_tree_obj) {
+  constructor(barnes_hut_tree_ser) {
     /**
      *
-     * @type {BarnesHutTreeSer} barnes_hut_tree_obj
+     * @type {BarnesHutTreeSer} barnes_hut_tree_ser
      */
-    this.barnes_hut_tree_obj = barnes_hut_tree_obj;
+    this.barnes_hut_tree_ser = barnes_hut_tree_ser;
 
     /**@type {number[][]} */
     this.next_node_idx_lists = [];
-    const parent_idxs_list = barnes_hut_tree_obj.parents;
+    const parent_idxs_list = barnes_hut_tree_ser.parents;
 
     /**@type {number[][]} */
     this.contain_value_idx_lists = [];
@@ -66,20 +85,27 @@ export class BarnesHutTree {
       }
     }
 
-    const to_leafs = barnes_hut_tree_obj.to_leafs;
+    const to_leafs = barnes_hut_tree_ser.to_leafs;
     for (let value_i = 0; value_i < to_leafs.length; ++value_i) {
       const parent_leaf_i = to_leafs[value_i];
       this.contain_value_idx_lists[parent_leaf_i].push(value_i);
     }
 
     const position_arr = new Float32Array(24);
-
+    /**
+     * @private
+     * @type {Float32Array}
+     */
     this.position_arr = position_arr;
 
     const { bc_ref, br_ref } = this.get_node_bc_and_br(0);
 
     set_vertices_of_3d_cube(bc_ref, br_ref, position_arr);
 
+    /**
+     * @private
+     * @type {three.BufferAttribute}
+     */
     const position_attri = new three.BufferAttribute(position_arr, 3);
     this.position_attri = position_attri;
     const geometry = new three.BufferGeometry();
@@ -122,11 +148,11 @@ export class BarnesHutTree {
    * }}
    */
   get_node_bc_and_br(node_i) {
-    const dim = this.barnes_hut_tree_obj.dim;
+    const dim = this.barnes_hut_tree_ser.dim;
     const node_i3 = node_i * dim;
     return {
-      br_ref: this.barnes_hut_tree_obj.brs[node_i],
-      bc_ref: this.barnes_hut_tree_obj.bcs.slice(node_i3, node_i3 + dim),
+      br_ref: this.barnes_hut_tree_ser.brs[node_i],
+      bc_ref: this.barnes_hut_tree_ser.bcs.slice(node_i3, node_i3 + dim),
     };
   }
 
@@ -135,7 +161,7 @@ export class BarnesHutTree {
    * @param {number} value_idx
    */
   get_leaf_node_with_value_idx(value_idx) {
-    return this.barnes_hut_tree_obj.to_leafs[value_idx];
+    return this.barnes_hut_tree_ser.to_leafs[value_idx];
   }
 
   /**

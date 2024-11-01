@@ -77,7 +77,10 @@ function pre_content_load_procedure() {
             entry.data = data;
             for (let i = 0; i < entry.wait.length; ++i) {
               const promise_ref = entry.wait[i];
-              // console.log(`Resolving promise ${i} on ${url}`);
+              console.log(
+                `Resolving identical promise ${i} on ${url} with data`,
+                data
+              );
               promise_ref.resolve(data);
             }
           })

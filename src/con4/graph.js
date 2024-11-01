@@ -24,10 +24,6 @@ import * as graph_ctrl_mod from "graph_ctrl";
 import * as three from "three";
 import * as san from "san";
 
-function make_graph_part_id(elem_id) {
-  return `${elem_id}_graph`;
-}
-
 /**
  * @typedef {Object} GameGraphNode
  * @property {{action:number, next_node_i: number, edge_i: number, flip: number}[]} next_node_info_list
@@ -167,7 +163,6 @@ function render_with_game_graph(elem_id, game_graph, param) {
   );
 
   const elem_mut_ref = document.getElementById(elem_id);
-  const graph_part_id = make_graph_part_id(elem_id);
 
   const [game_elem_string, game_elem_util] =
     con4_game.make_con4_game_inner_string(
@@ -177,9 +172,9 @@ function render_with_game_graph(elem_id, game_graph, param) {
       base_actions_list,
       following_actions_list
     );
-  elem_mut_ref.innerHTML = `<section id=${graph_part_id} class="con4_graph_graph"></section><section class="con4_graph_wrapper">${game_elem_string}</section>`;
+  elem_mut_ref.innerHTML = `<section class="con4_graph_wrapper">${game_elem_string}</section>`;
 
-  const graph_elem_mut_ref = document.getElementById(graph_part_id);
+  const graph_elem_mut_ref = elem_mut_ref;
   const scene = new three.Scene();
   scene.add(graph_ctrl.obj);
 
