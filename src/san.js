@@ -67,7 +67,7 @@ export class SceneInfo {
   }
 }
 
-class San {
+export class San {
   renderer = undefined;
   dirty = false;
   empty_scene = new Three.Scene();
@@ -290,6 +290,9 @@ class San {
     };
     mod_root_elem.addEventListener("dblclick", (event) => {
       event.preventDefault();
+      if (event.ctrlKey != true) {
+        return;
+      }
 
       if (is_fullscreen_flag == true) {
         // console.log("Exiting fullscreen");

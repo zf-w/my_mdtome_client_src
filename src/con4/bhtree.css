@@ -1,0 +1,87 @@
+.con4_bhtree {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 100vh;
+  position: relative;
+  text-align: end;
+  user-select: none;
+  width: 100%;
+}
+
+.con4_bhtree h4 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.con4_bhtree_panel {
+  box-sizing: border-box;
+  max-height: 100vh;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 0;
+}
+
+.con4_bhtree_game_board {
+  margin: auto;
+  width: 80%;
+}
+
+.con4_bhtree_panel_nav {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.con4_bhtree_nav {
+  /* margin: 0.5rem; */
+  padding: 0.2rem;
+  position: relative;
+  font-size: 2rem;
+  z-index: 5;
+}
+
+.con4_bhtree_nav button {
+  background-color: transparent;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  display: block;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  text-align: left;
+  width: 100%;
+}
+
+.con4_bhtree_nav button:hover {
+  background-color: var(--fg);
+  color: var(--bg);
+  cursor: pointer;
+}
+
+.con4_bhtree_active_states {
+  /* margin: 0.5rem; */
+  padding: 0.2rem;
+  position: relative;
+  font-size: 2rem;
+  z-index: 5;
+}
+
+.con4_bhtree_active_states h4 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.con4_bhtree_active_states button {
+  background-color: transparent;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  display: block;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  text-align: left;
+  width: 100%;
+}
+
+.con4_bhtree_active_states button:hover {
+  background-color: var(--fg);
+  color: var(--bg);
+  cursor: pointer;
+}
