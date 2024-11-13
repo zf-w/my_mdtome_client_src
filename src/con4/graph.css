@@ -18,6 +18,8 @@
  */
 
 .con4_graph {
+  display: flex;
+  flex-direction: row-reverse;
   height: 100vh;
   position: relative;
 }
@@ -34,7 +36,8 @@
 
 .con4_graph_wrapper {
   display: block;
-  margin: auto;
+  margin-top: 1rem;
+  margin-right: 1rem;
   position: relative;
   -webkit-user-select: none;
   user-select: none;
@@ -48,10 +51,6 @@
     margin-top: 5%;
     width: 100%;
   }
-  .con4_graph_wrapper {
-    /* aspect-ratio: 1.5; */
-    padding: 3% 10%;
-  }
 }
 
 @media (min-width: 800px) {
@@ -59,8 +58,5 @@
     aspect-ratio: 1.5;
     margin-top: 5%;
     width: 100%;
-  }
-  .con4_graph_wrapper {
-    padding: 2% 25% 5% 25%;
   }
 }

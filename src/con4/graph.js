@@ -222,6 +222,15 @@ function render_with_game_graph(elem_id, game_graph, param) {
       following_actions_list,
       imagine_action
     );
+    if (imagine_action != undefined) {
+      con4_graph_util.calc_target_position(
+        graph_ctrl,
+        game_ctrl,
+        action_node_edge_adj,
+        actions_list,
+        look_at_target_vec3
+      );
+    }
     if (clear_graph != undefined) {
       clear_graph();
     }
@@ -232,13 +241,7 @@ function render_with_game_graph(elem_id, game_graph, param) {
       actions_list,
       true
     );
-    con4_graph_util.calc_target_position(
-      graph_ctrl,
-      game_ctrl,
-      action_node_edge_adj,
-      actions_list,
-      look_at_target_vec3
-    );
+
     clear_graph = () => {
       con4_graph_util.draw_graph(
         graph_ctrl,
