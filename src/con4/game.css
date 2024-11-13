@@ -16,92 +16,98 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
  */
- 
+
 .con4_game {
-    box-sizing: border-box;
-    display: block;
-    margin: 5% auto;
-    position: relative;
+  box-sizing: border-box;
+  display: block;
+  margin: 5% auto;
+  position: relative;
 }
 
 @media (max-width: 800px) {
-    .con4_game {
-        aspect-ratio: 1.5;
-        padding: 3% 10%;
-        width: 100%;
-    }
+  .con4_game {
+    aspect-ratio: 1.5;
+    padding: 3% 10%;
+    width: 100%;
+  }
 }
-  
+
 @media (min-width: 800px) and (max-width: 1400px) {
-    .con4_game {
-        aspect-ratio: 2;
-        padding: 3% 30%;
-    }
+  .con4_game {
+    aspect-ratio: 2;
+    padding: 3% 30%;
+  }
 }
-  
+
 @media (min-width: 1400px) {
-    .con4_game {
-        aspect-ratio: 3;
-        padding: 3% 40%;
-    }
+  .con4_game {
+    aspect-ratio: 3;
+    padding: 3% 40%;
+  }
 }
 
 .con4_game_ctrl_root {
-    height: 50px;
-    position: relative;
+  height: 50px;
+  position: relative;
 }
 
 .con4_game_play_row {
-    height: auto;
-    position: relative;
-    text-align: center;
-    width: 100%;
+  height: auto;
+  position: relative;
+  text-align: center;
+  width: 100%;
 }
 
 .con4_game_loading .con4_game_play_row {
-    display: none;
+  display: none;
 }
 
 .con4_game_play_ctrl {
-    background-color: var(--bg);
-    font-size: 1.1rem;
-    height: 100%;
-    position:relative;
-    display: inline-block;
-    text-align: center;
-    overflow: hidden;
+  background-color: var(--bg);
+  font-size: 1.1rem;
+  height: 100%;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  overflow: hidden;
 }
 
 .con4_game_btn {
-    color: var(--fg);
-    background-color: var(--bg);
-    border: 0px var(--fg);
-    font-size: 1.2rem;
+  color: var(--fg);
+  background-color: var(--bg);
+  border: 0px var(--fg);
+  font-size: 1.2rem;
 }
 
 .con4_game_btn:hover {
-    cursor:pointer;
+  cursor: pointer;
 }
 
 .con4_game_ctrl_1_row {
-    position: relative;
-    height: 15px;
-    margin: 1rem 0;
-    text-align: center;
-    width: 100%;
+  position: relative;
+  height: 15px;
+  margin: 1rem 0;
+  text-align: center;
+  width: 100%;
 }
 
 .con4_game_loading .con4_game_ctrl_1_row {
-    display: none;
+  display: none;
 }
 
-.con4_game_loading_msg {
-    display: none;
-    text-align: center;
-    width: 100%;
+.con4_game_loading_msg,
+.con4_game_error_msg {
+  display: none;
+  text-align: center;
+  width: 100%;
 }
 
 .con4_game_loading .con4_game_loading_msg {
-    color: var(--fg);
-    display: block;
+  color: var(--fg);
+  display: block;
+}
+
+.con4_game_error .con4_game_error_msg {
+  color: var(--fg);
+  display: block;
 }

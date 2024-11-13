@@ -18,6 +18,9 @@
  */
 
 .con4_graph {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 100vh;
   position: relative;
 }
 
@@ -33,10 +36,12 @@
 
 .con4_graph_wrapper {
   display: block;
-  /* margin: 0 auto 5% auto; */
+  margin-top: 1rem;
+  margin-right: 1rem;
   position: relative;
   -webkit-user-select: none;
   user-select: none;
+  width: 400px;
   z-index: 2;
 }
 
@@ -46,40 +51,12 @@
     margin-top: 5%;
     width: 100%;
   }
-  .con4_graph_wrapper {
-    /* aspect-ratio: 1.5; */
-    padding: 3% 10%;
-  }
 }
 
-@media (min-width: 800px) and (max-width: 1400px) {
+@media (min-width: 800px) {
   .con4_graph_graph {
     aspect-ratio: 1.5;
     margin-top: 5%;
     width: 100%;
-  }
-  .con4_graph_wrapper {
-    padding: 2% 25% 5% 25%;
-  }
-}
-
-@media (min-width: 1400px) {
-  .con4_graph {
-    width: 100%;
-    height: 100vh;
-  }
-  .con4_graph_graph {
-    height: 100%;
-    min-height: 80vh;
-    width: 70%;
-  }
-  .con4_graph_wrapper {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    padding-top: 20%;
-    padding-right: 20px;
-    margin: auto 0;
   }
 }

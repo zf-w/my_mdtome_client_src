@@ -47,7 +47,11 @@ void main()
 }`
 
 
-
+/**
+ * 
+ * @param {{data: number[], dim: number}} position 
+ * @returns 
+ */
 export function position_to_dim_3_array(position) {
     const dim = position.dim
     const len = Math.floor(position.data.length / dim)
@@ -127,7 +131,7 @@ export class GraphController {
 
     edge_i_attri
     edge_geometry= new Three.BufferGeometry()
-     edge_material = new Three.LineBasicMaterial({
+    edge_material = new Three.LineBasicMaterial({
         vertexColors: true,
     })
 
@@ -136,6 +140,10 @@ export class GraphController {
 
     h3 = new Three.Vector3()
 
+    /**
+     * 
+     * @param {{position: {dim: number, data: number[]}, index: number[]}} graph 
+     */
     constructor(graph) {
         // console.log('Graph Controller building')
         const pos_dim = 3

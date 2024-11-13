@@ -19,15 +19,119 @@
 
 import * as con4 from "con4";
 import * as con4_game from "con4_game";
-import * as con4_graph_util from "con4_graph_util";
+import * as con4_graph_util from "./graph/util.js";
 import * as graph_ctrl_mod from "graph_ctrl";
 import * as three from "three";
 import * as san from "san";
 
-function make_graph_part_id(elem_id) {
-  return `${elem_id}_graph`;
+/**
+ * @typedef {Object} GameGraphNode
+ * @property {{action:number, next_node_i: number, edge_i: number, flip: number}[]} next_node_info_list
+ * @property {{prev_node_i:number, next_node_info_i: number}[]} prev_node_info_list
+ */
+
+export class GameGraph {
+  /**
+   *
+   * @param {{
+   * actions: number[][][],
+   * nodes: {colors: {
+   *  colors: number[],
+   *  color_map: {color_i: number[], color_rgb: number[]}
+   *  }
+   * },
+   * position: {data: number[], dim: number},
+   * game: {name: string, start: number[]}
+   * }} game_graph_ser
+   */
+  constructor(game_graph_ser) {
+    /**
+     * @type {GameGraphNode[]}
+     */
+    const nodes_list = [];
+    const action_next_state_lists = game_graph_ser.actions;
+    for (let node_i = 0; node_i < action_next_state_lists.length; ++node_i) {
+      nodes_list.push({
+        next_node_info_list: [],
+        prev_node_info_list: [],
+      });
+    }
+    let edge_len = 0;
+    for (let node_i = 0; node_i < action_next_state_lists.length; ++node_i) {
+      const curr_action_next_state_list = action_next_state_lists[node_i];
+
+      for (let i = 0; i < curr_action_next_state_list.length; ++i) {
+        const [raw_action, next_node_i, flip] = curr_action_next_state_list[i];
+        const node_ref = nodes_list[node_i];
+
+        const next_node_info_i = node_ref.next_node_info_list.length;
+        node_ref.next_node_info_list.push({
+          action: raw_action - 1,
+          next_node_i,
+          edge_i: edge_len,
+          flip,
+        });
+        nodes_list[next_node_i].prev_node_info_list.push({
+          prev_node_i: node_i,
+          next_node_info_i,
+        });
+        edge_len += 1;
+      }
+    }
+
+    /**
+     * @type {GameGraphNode[]}
+     */
+    this.nodes_list = nodes_list;
+  }
+
+  /**
+   *
+   * @param {number} node_i
+   */
+  get_actions_to_a_node(node_i) {
+    let curr_node_i = node_i;
+
+    let ans_actions_list = [];
+    while (this.nodes_list[curr_node_i].prev_node_info_list.length > 0) {
+      const curr_node_ref = this.nodes_list[curr_node_i];
+      const curr_prev_idxs_list = curr_node_ref.prev_node_info_list;
+      const { next_node_info_i, prev_node_i } = curr_prev_idxs_list[0];
+
+      const action =
+        this.nodes_list[prev_node_i].next_node_info_list[next_node_info_i]
+          .action;
+      ans_actions_list.push(action);
+      curr_node_i = prev_node_i;
+    }
+    return ans_actions_list.reverse();
+  }
 }
 
+/**
+ *
+ * @param {string} elem_id
+ * @param {{
+ * actions: number[][][],
+ * nodes: {colors: {
+ *  colors: number[],
+ *  color_map: {color_i: number[], color_rgb: number[]}
+ *  }
+ * },
+ * position: {data: number[], dim: number},
+ * game: {name: string, start: number[]}
+ * }} game_graph
+ * @param {{
+ *  load: string[],
+ *  following_actions_string: string,
+ *  camera_param: {
+ *  z: number
+ * },
+ * orbit_ctrl_param: {
+ *  auto_rotate_speed: number
+ * }
+ * }} param
+ */
 function render_with_game_graph(elem_id, game_graph, param) {
   const look_at_target_vec3 = new three.Vector3(0, 0, 0);
   const [graph_index, action_node_edge_adj] =
@@ -59,7 +163,6 @@ function render_with_game_graph(elem_id, game_graph, param) {
   );
 
   const elem_mut_ref = document.getElementById(elem_id);
-  const graph_part_id = make_graph_part_id(elem_id);
 
   const [game_elem_string, game_elem_util] =
     con4_game.make_con4_game_inner_string(
@@ -69,9 +172,9 @@ function render_with_game_graph(elem_id, game_graph, param) {
       base_actions_list,
       following_actions_list
     );
-  elem_mut_ref.innerHTML = `<section id=${graph_part_id} class="con4_graph_graph"></section><section class="con4_graph_wrapper">${game_elem_string}</section>`;
+  elem_mut_ref.innerHTML = `<section class="con4_graph_wrapper">${game_elem_string}</section>`;
 
-  const graph_elem_mut_ref = document.getElementById(graph_part_id);
+  const graph_elem_mut_ref = elem_mut_ref;
   const scene = new three.Scene();
   scene.add(graph_ctrl.obj);
 
@@ -119,6 +222,15 @@ function render_with_game_graph(elem_id, game_graph, param) {
       following_actions_list,
       imagine_action
     );
+    if (imagine_action != undefined) {
+      con4_graph_util.calc_target_position(
+        graph_ctrl,
+        game_ctrl,
+        action_node_edge_adj,
+        actions_list,
+        look_at_target_vec3
+      );
+    }
     if (clear_graph != undefined) {
       clear_graph();
     }
@@ -129,13 +241,7 @@ function render_with_game_graph(elem_id, game_graph, param) {
       actions_list,
       true
     );
-    con4_graph_util.calc_target_position(
-      graph_ctrl,
-      game_ctrl,
-      action_node_edge_adj,
-      actions_list,
-      look_at_target_vec3
-    );
+
     clear_graph = () => {
       con4_graph_util.draw_graph(
         graph_ctrl,
@@ -186,7 +292,7 @@ function render_with_game_graph(elem_id, game_graph, param) {
  * }
  * }} param
  */
-export function render(elem_id, param) {
+export function render_con4_graph(elem_id, param) {
   let res = window.mdtome.fetch_static_json_helper(param.load[0]);
   if (res.data != undefined) {
     render_with_game_graph(elem_id, res.param, param);

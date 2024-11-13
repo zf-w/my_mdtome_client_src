@@ -22,6 +22,7 @@ import * as con4_board from "con4_board";
 
 const HIDDEN_CLASSNAME = "hidden";
 const LOADING_CLASSNAME = "con4_game_loading";
+const ERROR_CLASSNAME = "con4_game_error";
 
 function make_play_ctrl_btn_elem_id(root_elem_id, i) {
   return `${root_elem_id}_play_${i}`;
@@ -104,7 +105,8 @@ export function make_con4_game_inner_string(
       following_actions_list.length == 0 ? " hidden" : ""
     }">Undo</button>    
     </div>
-    <div class="con4_game_loading_msg">Loading</div>
+    <div class="con4_game_loading_msg">Loading, might time-out, working on accelerating this.</div>
+    <div class="con4_game_error_msg">An error has occurred</div>
 </section>`,
     {
       board_id,
@@ -147,6 +149,8 @@ export function make_con4_game_logic_callbacks(
     let end = false;
     if (api_data == undefined) {
       elem_mut_ref.classList.add(LOADING_CLASSNAME);
+    } else if (api_data == "error") {
+      elem_mut_ref.classList.add(ERROR_CLASSNAME);
     } else {
       elem_mut_ref.classList.remove(LOADING_CLASSNAME);
       for (let i = 0; i < api_data.nexts.length; ++i) {
@@ -218,7 +222,9 @@ export function make_con4_game_logic_callbacks(
           modify_ctrl_panel();
         })
         .catch((err) => {
+          api_data = "error";
           console.log(err);
+          modify_ctrl_panel();
         });
     }
   };
@@ -246,6 +252,7 @@ export function make_con4_game_logic_callbacks(
     following_actions_list.push(i);
     imagine_action = undefined;
     heights[i] += 1;
+    console.log(i);
     fetch_and_render_fn();
   };
 
@@ -277,8 +284,9 @@ export function add_listeners_to_con4_game_ctrl(
     const curr_btn_elem_mut_ref = document.getElementById(
       make_play_ctrl_btn_elem_id(root_elem_id, i)
     );
-    curr_btn_elem_mut_ref.addEventListener("click", () => {
+    curr_btn_elem_mut_ref.addEventListener("mousedown", () => {
       play_fn(i);
+      console.log(i);
     });
     curr_btn_elem_mut_ref.addEventListener("mouseenter", () => {
       imagine_fn(i);
@@ -303,7 +311,7 @@ export function add_listeners_to_con4_game_ctrl(
  * @param {string} elem_id
  * @param {{w: number, h: number, actions: string, api_url: string}} param
  */
-export function render(elem_id, param, callback_fn) {
+export function render_con4_game(elem_id, param, callback_fn) {
   const w = param.w;
   const h = param.h;
   const elem_mut_ref = document.getElementById(elem_id);
