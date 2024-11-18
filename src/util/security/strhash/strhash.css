@@ -1,0 +1,91 @@
+/**
+ * @license
+ * SPDX-License-Identifier: AGPL-3.0-only
+ *
+ * Zhifeng's Markdown To Website Renderer
+ * Copyright (C) 2024  Zhifeng Wang 王之枫
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, version 3 of the License only.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@media (max-width: 800px) {
+  .util_security_strhash {
+    --msg-area-width: 90%;
+  }
+  .util_security_strhash_inner_hash_out {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1200px) {
+  .util_security_strhash {
+    --msg-area-width: 70%;
+  }
+  .util_security_strhash_inner_hash_out {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .util_security_strhash {
+    --msg-area-width: 50%;
+  }
+  .util_security_strhash_inner_msg_in {
+    font-size: 1.3rem;
+  }
+  .util_security_strhash_inner_hash_out {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  .util_security_strhash {
+    --msg-area-width: 40%;
+  }
+  .util_security_strhash_inner_msg_in {
+    font-size: 1.4rem;
+  }
+  .util_security_strhash_inner_hash_out {
+    font-size: 1.3rem;
+  }
+}
+
+.util_security_strhash_inner_hash_out {
+  background-color: var(--bg);
+  border: 1px solid var(--fg);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  color: var(--fg);
+  display: block;
+  margin: 1rem auto 1rem auto;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  padding: 0.5rem;
+  -webkit-user-select: all;
+  user-select: all;
+  width: min-content;
+}
+
+.util_security_strhash_inner_msg_in {
+  background-color: var(--bg);
+  border: 1px solid var(--fg);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  color: var(--fg);
+  display: block;
+  height: 10rem;
+  margin: 1rem auto 1rem auto;
+  overflow: hidden;
+  padding: 1rem;
+  resize: vertical;
+  width: var(--msg-area-width);
+}
