@@ -17,13 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { BarnesHutTree, BarnesHutTreeSer } from "../bhtree.js";
-import { GameGraph } from "./graph.js";
-import * as con4_graph_util_mod from "./graph/util.js";
-import * as graph_ctrl_mod from "../graph/ctrl.js";
-import * as three_mod from "../three.js";
-import * as san_mod from "../san.js";
-import { render_game_board_with_actions_list } from "./board.js";
+import { BarnesHutTree, BarnesHutTreeSer } from "../../bhtree.js";
+import { GameGraph } from "../graph.js";
+import * as con4_graph_util_mod from "../graph/util.js";
+import * as graph_ctrl_mod from "../../graph/ctrl.js";
+import * as three_mod from "../../three.js";
+import * as san_mod from "../../san.js";
+import { render_game_board_with_actions_list } from "../board.js";
 
 const EVENT_MOUSE_OVER_NAME_STRING = "mouseover";
 const EVENT_MOUSE_LEFT_NAME_STRING = "mouseleave";
@@ -421,8 +421,9 @@ class ExtState {
 /**
  *
  * @param {HTMLElement} ext_root_elem_mut_ref
+ * @param {Con4Game} con4_game Connect Four Game Object
  */
-function modify_ext_root_elem_mut_ref(ext_root_elem_mut_ref) {
+function modify_ext_root_elem_mut_ref(ext_root_elem_mut_ref, con4_game) {
   const bhtree_nav_elem_mut_ref = document.createElement(
     HTML_SECTION_TAG_NAME_STRING
   );
@@ -482,8 +483,8 @@ function modify_ext_root_elem_mut_ref(ext_root_elem_mut_ref) {
 
   ext_root_elem_mut_ref.appendChild(panel_elem_mut_ref);
   render_game_board_with_actions_list(game_board_elem_mut_ref, {
-    w: 7,
-    h: 6,
+    w: con4_game.w,
+    h: con4_game.h,
     actions_list: [],
   });
 
@@ -492,6 +493,40 @@ function modify_ext_root_elem_mut_ref(ext_root_elem_mut_ref) {
     active_states_list_elem_mut_ref,
     game_board_elem_mut_ref,
   };
+}
+
+class Con4Game {
+  /**
+   *
+   * @param {number} width
+   * @param {number} height
+   */
+  constructor(width, height) {
+    /**
+     * @type {number}
+     */
+    this.w = width;
+    /**
+     * @type {number}
+     */
+    this.h = height;
+  }
+
+  get_init_flip_state() {
+    return 0;
+  }
+
+  fold_flip_state(prev_flip_state, flip_state) {
+    return prev_flip_state ^ flip_state;
+  }
+
+  calc_true_action_based_on_flip_state(action, flip_state) {
+    if (flip_state == 1) {
+      return this.w - 1 - action;
+    } else {
+      return action;
+    }
+  }
 }
 
 /**
@@ -503,7 +538,7 @@ function modify_ext_root_elem_mut_ref(ext_root_elem_mut_ref) {
  *  color_map: {color_i: number[], color_rgb: number[]}
  * },
  * position: {data: number[], dim: number},
- * game: {name: string, start: number[]}
+ * game: {name: string, start: number[], width: number, height:number}
  * }} game_graph_ser
  * @param {BarnesHutTreeSer} bhtree_ser
  */
@@ -532,6 +567,9 @@ function render_con4_bhtree_elem(
   orbit_control.autoRotate = true;
   orbit_control.autoRotateSpeed = 0.1;
 
+  const con4_w = game_graph_ser.game.width ? game_graph_ser.game.width : 7;
+  const con4_h = game_graph_ser.game.height ? game_graph_ser.game.height : 6;
+
   const [graph_index, action_node_edge_adj] =
     con4_graph_util_mod.build_index_and_node_edge_adj_from_actions_map(
       game_graph_ser.actions
@@ -553,10 +591,13 @@ function render_con4_bhtree_elem(
   const bhtree = new BarnesHutTree(bhtree_ser);
   scene.add(bhtree.three_obj);
 
-  const game_graph = new GameGraph(game_graph_ser);
+  const con4_game = new Con4Game(con4_w, con4_h);
+
+  const game_graph = new GameGraph(game_graph_ser, con4_game);
 
   const page_elem_mut_refs = modify_ext_root_elem_mut_ref(
-    ext_root_elem_mut_ref
+    ext_root_elem_mut_ref,
+    con4_game
   );
 
   const state_init_obj = {
@@ -565,7 +606,7 @@ function render_con4_bhtree_elem(
     render_game_fn: (actions_list) => {
       render_game_board_with_actions_list(
         page_elem_mut_refs.game_board_elem_mut_ref,
-        { w: 7, h: 6, actions_list }
+        { w: con4_w, h: con4_h, actions_list }
       );
     },
   };

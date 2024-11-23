@@ -30,6 +30,32 @@ import * as san from "san";
  * @property {{prev_node_i:number, next_node_info_i: number}[]} prev_node_info_list
  */
 
+/**
+ * @callback get_init_flip_state
+ * @returns {*}
+ */
+
+/**
+ * @callback fold_flip_state
+ *
+ * @param {*} prev_flip_state
+ * @param {*} curr_flip_state
+ * @returns {*} next_flip_state
+ */
+
+/**
+ * @callback calc_true_action_based_on_flip_state
+ * @param {*} action
+ * @param {*} flip_state
+ */
+
+/**
+ * @typedef {Object} Game
+ * @property {get_init_flip_state} get_init_flip_state
+ * @property {fold_flip_state} fold_flip_state
+ * @property {calc_true_action_based_on_flip_state} calc_true_action_based_on_flip_state
+ */
+
 export class GameGraph {
   /**
    *
@@ -43,12 +69,15 @@ export class GameGraph {
    * position: {data: number[], dim: number},
    * game: {name: string, start: number[]}
    * }} game_graph_ser
+   *
+   * @param {Game} game
    */
-  constructor(game_graph_ser) {
+  constructor(game_graph_ser, game) {
     /**
      * @type {GameGraphNode[]}
      */
     const nodes_list = [];
+
     const action_next_state_lists = game_graph_ser.actions;
     for (let node_i = 0; node_i < action_next_state_lists.length; ++node_i) {
       nodes_list.push({
@@ -65,12 +94,14 @@ export class GameGraph {
         const node_ref = nodes_list[node_i];
 
         const next_node_info_i = node_ref.next_node_info_list.length;
+
         node_ref.next_node_info_list.push({
           action: raw_action - 1,
           next_node_i,
           edge_i: edge_len,
           flip,
         });
+
         nodes_list[next_node_i].prev_node_info_list.push({
           prev_node_i: node_i,
           next_node_info_i,
@@ -78,6 +109,10 @@ export class GameGraph {
         edge_len += 1;
       }
     }
+    /**
+     * @type {Game}
+     */
+    this.game = game;
 
     /**
      * @type {GameGraphNode[]}
@@ -93,14 +128,20 @@ export class GameGraph {
     let curr_node_i = node_i;
 
     let ans_actions_list = [];
+    let flip_state_i = this.game.get_init_flip_state();
     while (this.nodes_list[curr_node_i].prev_node_info_list.length > 0) {
       const curr_node_ref = this.nodes_list[curr_node_i];
       const curr_prev_idxs_list = curr_node_ref.prev_node_info_list;
       const { next_node_info_i, prev_node_i } = curr_prev_idxs_list[0];
 
-      const action =
-        this.nodes_list[prev_node_i].next_node_info_list[next_node_info_i]
-          .action;
+      const action_info =
+        this.nodes_list[prev_node_i].next_node_info_list[next_node_info_i];
+      let action = action_info.action;
+      flip_state_i = this.game.fold_flip_state(flip_state_i, action_info.flip);
+      action = this.game.calc_true_action_based_on_flip_state(
+        action,
+        flip_state_i
+      );
       ans_actions_list.push(action);
       curr_node_i = prev_node_i;
     }
@@ -133,6 +174,8 @@ export class GameGraph {
  * }} param
  */
 function render_with_game_graph(elem_id, game_graph, param) {
+  console.log(game_graph);
+
   const look_at_target_vec3 = new three.Vector3(0, 0, 0);
   const [graph_index, action_node_edge_adj] =
     con4_graph_util.build_index_and_node_edge_adj_from_actions_map(

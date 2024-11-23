@@ -286,7 +286,7 @@ export function add_listeners_to_con4_game_ctrl(
     );
     curr_btn_elem_mut_ref.addEventListener("mousedown", () => {
       play_fn(i);
-      console.log(i);
+      // console.log(i);
     });
     curr_btn_elem_mut_ref.addEventListener("mouseenter", () => {
       imagine_fn(i);
@@ -297,7 +297,7 @@ export function add_listeners_to_con4_game_ctrl(
   }
   const undo_btn_id = make_undo_btn_id(root_elem_id);
   const undo_btn_mut_ref = document.getElementById(undo_btn_id);
-  undo_btn_mut_ref.addEventListener("click", undo_fn);
+  undo_btn_mut_ref.addEventListener("mousedown", undo_fn);
   undo_btn_mut_ref.addEventListener("mouseenter", () => {
     imagine_fn(-1);
   });
