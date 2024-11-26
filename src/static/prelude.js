@@ -19,6 +19,8 @@
  * ```
  */
 
+const THEME_STRINGS_LIST = ["theme_light", "theme_navy", "theme_honey"];
+
 function pre_content_load_procedure() {
   const PAGE_ROOT_ELEM_ID = "$root";
 
@@ -26,8 +28,6 @@ function pre_content_load_procedure() {
   const LOCAL_STORAGE_THEME_KEY = "theme";
 
   const SIDEBAR_ON_CLASS = "sidebar_on";
-
-  const THEME_STRINGS_LIST = ["theme_zf_navy", "theme_zf_honey"];
 
   const html_elem_mut_ref = document.getElementById(PAGE_ROOT_ELEM_ID);
 
@@ -110,8 +110,6 @@ function post_content_load_procedure() {
   const PAGE_END_TIMESTAMP_ELEM_ID = "$end_timestamp";
   const PAGE_MENU_ICON_ELEM_ID = "$menu_icon";
   const PAGE_ROOT_ELEM_ID = "$root";
-
-  const THEME_STRINGS_LIST = ["theme_zf_navy", "theme_zf_honey"];
 
   const SIDEBAR_ON_CLASS = "sidebar_on";
 

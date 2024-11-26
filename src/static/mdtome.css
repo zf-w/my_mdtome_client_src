@@ -17,43 +17,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
  */
 
-.theme_zf_navy {
-  --bg: hsl(226, 22%, 12%);
-  --fg: #b8b5c5;
-  --sidebar-bg: #282d3f;
-  --sidebar-fg: #f3f4ff;
-  --scrollbar: var(--sidebar-fg);
-  --icons: #737480;
-  --icons-hover: #b7b9cc;
-  --links: #00a6ff;
-  --inline-code-color: #6dff9b;
-}
-
-.theme_zf_honey {
-  --bg: #f3fae8;
-  --fg: #600000;
-  --sidebar-bg: #f5f2e8;
-  --sidebar-fg: #690000;
-  --sidebar-active: #a801a8;
-  --scrollbar: var(--sidebar-fg);
-  --icons: var(--sidebar-fg);
-  --icons-hover: var(--sidebar-active);
-  --links: #1e00ff;
-  --inline-code-color: #e100ff;
-}
-
-*::-webkit-scrollbar {
-  width: 12px;
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar);
-}
-
 @media (max-width: 800px) {
   :root {
     --icon-size: 30px;
@@ -61,19 +24,10 @@
     --sidebar-width: 100vw;
     --wrapper-width: 80vw;
 
-    --h1-font-size: 2.7rem;
-    --h2-font-size: 2.3rem;
-    --h3-font-size: 1.9rem;
-    --p-font-size: 1.2rem;
     --sidebar-font-size: 1.1rem;
     --sidebar-title-size: 1.3rem;
   }
-  :root:lang(zh) {
-    --h1-font-size: 2.3rem;
-    --h2-font-size: 1.8rem;
-    --h3-font-size: 1.3rem;
-    --p-font-size: 1.1rem;
-  }
+
   .sidebar_on #\$wrapper {
     transform: none;
   }
@@ -86,18 +40,8 @@
     --sidebar-width: 20vw;
     --wrapper-content-width: 66vw;
 
-    --h1-font-size: 2.9rem;
-    --h2-font-size: 2.4rem;
-    --h3-font-size: 2rem;
-    --p-font-size: 1.3rem;
     --sidebar-font-size: 1.1rem;
     --sidebar-title-size: 1.3rem;
-  }
-  :root:lang(zh) {
-    --h1-font-size: 2.4rem;
-    --h2-font-size: 1.9rem;
-    --h3-font-size: 1.7rem;
-    --p-font-size: 1.2rem;
   }
 }
 
@@ -108,18 +52,8 @@
     --sidebar-width: 15vw;
     --wrapper-content-width: 55vw;
 
-    --h1-font-size: 2.7rem;
-    --h2-font-size: 2.2rem;
-    --h3-font-size: 1.9rem;
-    --p-font-size: 1.2rem;
     --sidebar-font-size: 1.1rem;
     --sidebar-title-size: 1.3rem;
-  }
-  :root:lang(zh) {
-    --h1-font-size: 2.3rem;
-    --h2-font-size: 1.8rem;
-    --h3-font-size: 1.3rem;
-    --p-font-size: 1rem;
   }
 }
 
@@ -362,12 +296,9 @@ pre {
   border: solid 1px var(--sidebar-fg);
 }
 
-.theme_zf_navy #\$theme_zf_navy_btn {
-  background-color: var(--sidebar-fg);
-  color: var(--sidebar-bg);
-}
-
-.theme_zf_honey #\$theme_zf_honey_btn {
+.theme_light #\$theme_light_btn,
+.theme_navy #\$theme_navy_btn,
+.theme_honey #\$theme_honey_btn {
   background-color: var(--sidebar-fg);
   color: var(--sidebar-bg);
 }

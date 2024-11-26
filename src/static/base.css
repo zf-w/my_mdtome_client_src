@@ -1,0 +1,124 @@
+/**
+ * @license 
+ * SPDX-License-Identifier: AGPL-3.0-only
+ * 
+ * Zhifeng's Markdown To Website Renderer
+ * Copyright (C) 2024  Zhifeng Wang 王之枫
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, version 3 of the License only.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>. 
+ */
+
+.theme_light {
+  --bg: hsl(0, 0%, 100%);
+  --fg: #050805;
+  --sidebar-bg: #ffffffd3;
+  --sidebar-fg: #131c0d;
+  --scrollbar: var(--sidebar-fg);
+  --icons: var(--fg);
+  --icons-hover: var(--sidebar-fg);
+  --links: #3300ff;
+  --inline-code-color: #00ff51;
+}
+
+.theme_navy {
+  --bg: hsl(226, 22%, 12%);
+  --fg: #b8b5c5;
+  --sidebar-bg: #282d3f;
+  --sidebar-fg: #f3f4ff;
+  --scrollbar: var(--sidebar-fg);
+  --icons: #737480;
+  --icons-hover: #b7b9cc;
+  --links: #00a6ff;
+  --inline-code-color: #6dff9b;
+}
+
+.theme_honey {
+  --bg: #f3fae8;
+  --fg: #600000;
+  --sidebar-bg: #f5f2e8;
+  --sidebar-fg: #690000;
+  --sidebar-active: #a801a8;
+  --scrollbar: var(--sidebar-fg);
+  --icons: var(--sidebar-fg);
+  --icons-hover: var(--sidebar-active);
+  --links: #1e00ff;
+  --inline-code-color: #e100ff;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar);
+}
+
+@media (max-width: 800px) {
+  :root {
+    --h1-font-size: 2.7rem;
+    --h2-font-size: 2.3rem;
+    --h3-font-size: 1.9rem;
+    --p-font-size: 1.2rem;
+  }
+  :root:lang(zh) {
+    --h1-font-size: 2.3rem;
+    --h2-font-size: 1.8rem;
+    --h3-font-size: 1.3rem;
+    --p-font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1400px) {
+  :root {
+    --h1-font-size: 2.9rem;
+    --h2-font-size: 2.4rem;
+    --h3-font-size: 2rem;
+    --p-font-size: 1.3rem;
+  }
+  :root:lang(zh) {
+    --h1-font-size: 2.4rem;
+    --h2-font-size: 1.9rem;
+    --h3-font-size: 1.7rem;
+    --p-font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --h1-font-size: 2.7rem;
+    --h2-font-size: 2.2rem;
+    --h3-font-size: 1.9rem;
+    --p-font-size: 1.2rem;
+  }
+  :root:lang(zh) {
+    --h1-font-size: 2.3rem;
+    --h2-font-size: 1.8rem;
+    --h3-font-size: 1.3rem;
+    --p-font-size: 1rem;
+  }
+}
+
+.TAL {
+  text-align: left;
+}
+
+.TAC {
+  text-align: center;
+}
+
+.TAC {
+  text-align: right;
+}
