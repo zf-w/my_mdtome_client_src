@@ -2,6 +2,8 @@
 
 This is the client-side code of Zhifeng's Markdown to Tome Renderer.
 
+Slowly cleaning up.
+
 ## License: AGPL-3.0-only
 
 ```license_notice
