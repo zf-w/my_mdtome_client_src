@@ -249,11 +249,12 @@ export function calc_target_position(
 
 export function init_graph_with_game_graph(
   graph_ctrl,
-  game_graph,
-  action_node_edge_adj
+  game_graph_ser,
+  action_node_edge_adj,
+  bg_color
 ) {
-  const node_color_map = new ColorMap(game_graph.nodes.colors.colormap);
-  const color_idxs = game_graph.nodes.colors.colors;
+  const node_color_map = new ColorMap(game_graph_ser.nodes.colors.colormap);
+  const color_idxs = game_graph_ser.nodes.colors.colors;
   for (let node_i = 0; node_i < color_idxs.length; ++node_i) {
     const curr_color_i = color_idxs[node_i];
     graph_ctrl.set_node_color(
@@ -267,13 +268,77 @@ export function init_graph_with_game_graph(
     const curr_nexts = actions[curr_node_i];
 
     for (let action_i = 0; action_i < curr_nexts.length; ++action_i) {
-      const [action, next_node_i, edge_i, flip] = curr_nexts[action_i];
+      const [_action, next_node_i, edge_i, _flip] = curr_nexts[action_i];
       const curr_color_i = color_idxs[next_node_i];
       graph_ctrl.set_edge_color(
         edge_i,
         true,
         new Three.Color(node_color_map.get_color(curr_color_i))
       );
+      if (bg_color != undefined) {
+        graph_ctrl.set_edge_color(edge_i, false, bg_color);
+      }
     }
+  }
+}
+
+/**
+ *
+ * @param {import("../graph.js").GraphController} graph_ctrl
+ * @param {import("../graph.js").GameGraphSer} game_graph_ser
+ * @param {number[][][]} action_node_edge_adj
+ */
+export function display_optimal_edges(
+  graph_ctrl,
+  game_graph_ser,
+  action_node_edge_adj
+) {
+  const actions = action_node_edge_adj;
+  const scores = game_graph_ser.nodes.colors.colors;
+
+  const node_i_queue = [0];
+  let first_player_flag = true;
+  let queue_elem_i = 0;
+
+  const visited_node_i_set = new Set();
+  visited_node_i_set.add(0);
+
+  while (queue_elem_i < node_i_queue.length) {
+    const level_q_len = node_i_queue.length;
+    for (; queue_elem_i < level_q_len; ++queue_elem_i) {
+      const curr_node_i = node_i_queue[queue_elem_i];
+      const curr_nexts = actions[curr_node_i];
+
+      if (curr_nexts.length == 0) {
+        continue;
+      }
+
+      const actions_len = curr_nexts.length;
+
+      let max_edge_i = undefined;
+      let max_next_node_i = undefined;
+      let max_action_score = undefined;
+
+      for (let action_i = 0; action_i < actions_len; ++action_i) {
+        const [_action, next_node_i, edge_i, _flip] = curr_nexts[action_i];
+        let action_score = scores[next_node_i];
+        if (first_player_flag == false) {
+          action_score = -action_score;
+        }
+
+        if (max_action_score == undefined || action_score > max_action_score) {
+          max_edge_i = edge_i;
+          max_action_score = action_score;
+          max_next_node_i = next_node_i;
+        }
+
+        if (visited_node_i_set.has(next_node_i) == false) {
+          node_i_queue.push(next_node_i);
+          visited_node_i_set.add(next_node_i);
+        }
+      }
+      graph_ctrl.show_edge(max_edge_i);
+    }
+    first_player_flag = !first_player_flag;
   }
 }

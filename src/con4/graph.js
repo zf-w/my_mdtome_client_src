@@ -56,19 +56,20 @@ import * as san from "san";
  * @property {calc_true_action_based_on_flip_state} calc_true_action_based_on_flip_state
  */
 
+/**
+ * @typedef {Object} GameGraphSer
+ *
+ * @property {number[][][]} actions
+ * @property {{colors: {colors: number[],color_map: {color_i: number[], color_rgb: number[]}}}} nodes
+ * @property {data: number[], dim: number} position
+ * @property {name: string, start: number[]} game
+ * }
+ */
+
 export class GameGraph {
   /**
    *
-   * @param {{
-   * actions: number[][][],
-   * nodes: {colors: {
-   *  colors: number[],
-   *  color_map: {color_i: number[], color_rgb: number[]}
-   *  }
-   * },
-   * position: {data: number[], dim: number},
-   * game: {name: string, start: number[]}
-   * }} game_graph_ser
+   * @param {GameGraphSer} game_graph_ser
    *
    * @param {Game} game
    */

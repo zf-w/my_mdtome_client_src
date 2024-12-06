@@ -17,12 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { BarnesHutTree, BarnesHutTreeSer } from "../../bhtree.js";
-import { GameGraph } from "../graph.js";
-import * as con4_graph_util_mod from "../graph/util.js";
 import * as graph_ctrl_mod from "../../graph/ctrl.js";
 import * as three_mod from "../../three.js";
 import * as san_mod from "../../san.js";
+import { BarnesHutTree, BarnesHutTreeSer } from "../../bhtree.js";
+import { Con4Game } from "../con4.js";
+import { GameGraph } from "../graph.js";
+import * as con4_graph_util_mod from "../graph/util.js";
 import { render_game_board_with_actions_list } from "../board.js";
 
 const EVENT_MOUSE_OVER_NAME_STRING = "mouseover";
@@ -113,6 +114,9 @@ class ExtState {
    * }}
    */
   page_elem_mut_refs;
+
+  /**@type {boolean} */
+  draw_optimal_flag = false;
 
   /**
    * @param {string} ext_root_elem_id
@@ -225,9 +229,11 @@ class ExtState {
   draw_graph_node_out_edges(node_i) {
     const node_ref = this.game_graph.nodes_list[node_i];
     const next_info_list = node_ref.next_node_info_list;
-    for (let i = 0; i < next_info_list.length; ++i) {
-      const { edge_i } = next_info_list[i];
-      this.graph_ctrl.show_edge(edge_i);
+    if (this.draw_optimal_flag == false) {
+      for (let i = 0; i < next_info_list.length; ++i) {
+        const { edge_i } = next_info_list[i];
+        this.graph_ctrl.show_edge(edge_i);
+      }
     }
   }
 
@@ -253,9 +259,11 @@ class ExtState {
 
     const node_ref = this.game_graph.nodes_list[game_state_i];
     const next_info_list = node_ref.next_node_info_list;
-    for (let i = 0; i < next_info_list.length; ++i) {
-      const { edge_i } = next_info_list[i];
-      this.graph_ctrl.hide_edge(edge_i);
+    if (this.draw_optimal_flag == false) {
+      for (let i = 0; i < next_info_list.length; ++i) {
+        const { edge_i } = next_info_list[i];
+        this.graph_ctrl.hide_edge(edge_i);
+      }
     }
 
     if (game_state_i == this.curr_game_state_i) {
@@ -495,40 +503,6 @@ function modify_ext_root_elem_mut_ref(ext_root_elem_mut_ref, con4_game) {
   };
 }
 
-class Con4Game {
-  /**
-   *
-   * @param {number} width
-   * @param {number} height
-   */
-  constructor(width, height) {
-    /**
-     * @type {number}
-     */
-    this.w = width;
-    /**
-     * @type {number}
-     */
-    this.h = height;
-  }
-
-  get_init_flip_state() {
-    return 0;
-  }
-
-  fold_flip_state(prev_flip_state, flip_state) {
-    return prev_flip_state ^ flip_state;
-  }
-
-  calc_true_action_based_on_flip_state(action, flip_state) {
-    if (flip_state == 1) {
-      return this.w - 1 - action;
-    } else {
-      return action;
-    }
-  }
-}
-
 /**
  *
  * @param {string} ext_root_elem_id
@@ -541,12 +515,15 @@ class Con4Game {
  * game: {name: string, start: number[], width: number, height:number}
  * }} game_graph_ser
  * @param {BarnesHutTreeSer} bhtree_ser
+ * @param {number[]} start_active_states_list
+ * @param {boolean} draw_optimal_flag
  */
 function render_con4_bhtree_elem(
   ext_root_elem_id,
   game_graph_ser,
   bhtree_ser,
-  start_active_states_list
+  start_active_states_list,
+  draw_optimal_flag
 ) {
   /**
    * @type {san_mod.San}
@@ -580,11 +557,36 @@ function render_con4_bhtree_elem(
     position: game_graph_ser.position,
     slug: `Graph Game: ${ext_root_elem_id}`,
   });
+
+  let bg_color;
+  // Temp background color management...
+  if (window.mdtome.curr_theme_string) {
+    const theme_string = window.mdtome.curr_theme_string;
+    if (theme_string == "theme_light") {
+      bg_color = new three_mod.Color("hsl(0, 0%, 100%)");
+    } else if (theme_string == "theme_navy") {
+      bg_color = new three_mod.Color(0);
+    } else {
+      bg_color = new three_mod.Color(0xf3fae8);
+    }
+  } else {
+    bg_color = new three_mod.Color(0);
+  }
+
   con4_graph_util_mod.init_graph_with_game_graph(
     graph_ctrl,
     game_graph_ser,
-    action_node_edge_adj
+    action_node_edge_adj,
+    bg_color
   );
+
+  if (draw_optimal_flag == true) {
+    con4_graph_util_mod.display_optimal_edges(
+      graph_ctrl,
+      game_graph_ser,
+      action_node_edge_adj
+    );
+  }
 
   scene.add(graph_ctrl.obj);
 
@@ -620,6 +622,8 @@ function render_con4_bhtree_elem(
     state_init_obj
   );
 
+  state.draw_optimal_flag = draw_optimal_flag;
+
   state.render_bhtree_nav_part();
 
   const scene_info = new san_mod.SceneInfo(
@@ -642,11 +646,17 @@ function render_con4_bhtree_elem(
  *  load: string[],
  *  gamegraph_url_idx: number,
  *  bhtree_data_url_idx: number,
- *  start_active_states_list: number[]
+ *  start_active_states_list: number[],
+ *  draw_optimal_flag: boolean
  * }} param
  */
 export function render_con4_bhtree(ext_root_elem_id, param) {
-  const { start_active_states_list, load: load_url_list } = param;
+  let {
+    start_active_states_list,
+    load: load_url_list,
+    draw_optimal_flag,
+  } = param;
+  draw_optimal_flag = draw_optimal_flag ? draw_optimal_flag : false;
   function load_bht_and_render(game_graph_ser) {
     let bhtree_data_res = window.mdtome.fetch_static_json_helper(
       load_url_list[1]
@@ -656,7 +666,8 @@ export function render_con4_bhtree(ext_root_elem_id, param) {
         ext_root_elem_id,
         game_graph_ser,
         bhtree_data_res.data,
-        start_active_states_list
+        start_active_states_list,
+        draw_optimal_flag
       );
     } else {
       bhtree_data_res.promise
@@ -665,7 +676,8 @@ export function render_con4_bhtree(ext_root_elem_id, param) {
             ext_root_elem_id,
             game_graph_ser,
             bhtree_data,
-            start_active_states_list
+            start_active_states_list,
+            draw_optimal_flag
           );
         })
         .catch((err_msg) => {
