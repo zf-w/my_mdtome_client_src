@@ -26,7 +26,8 @@
   --icons: var(--fg);
   --icons-hover: var(--sidebar-fg);
   --links: #3300ff;
-  --inline-code-color: #00ff51;
+  --code-c: #00ff51;
+  --code-bg: var(--fg);
 }
 
 .theme_navy {
@@ -38,7 +39,8 @@
   --icons: #737480;
   --icons-hover: #b7b9cc;
   --links: #00a6ff;
-  --inline-code-color: #6dff9b;
+  --code-c: #6dff9b;
+  --code-bg: #282747;
 }
 
 .theme_honey {
@@ -51,7 +53,8 @@
   --icons: var(--sidebar-fg);
   --icons-hover: var(--sidebar-active);
   --links: #1e00ff;
-  --inline-code-color: #e100ff;
+  --code-c: #e100ff;
+  --code-bg: #ffeded;
 }
 
 *::-webkit-scrollbar {
@@ -119,6 +122,6 @@
   text-align: center;
 }
 
-.TAC {
+.TAR {
   text-align: right;
 }

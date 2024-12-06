@@ -82,8 +82,16 @@ a:hover {
   text-decoration: underline;
 }
 
-code {
-  color: var(--inline-code-color);
+pre > code {
+  color: var(--code-c);
+}
+
+:not(pre) > code {
+  color: var(--code-c);
+  background-color: var(--code-bg);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  padding: 0.2rem;
 }
 
 h1 {
@@ -142,6 +150,7 @@ ol {
 
 blockquote {
   border-left: 4px var(--fg) solid;
+  box-sizing: border-box;
   font-size: 1.3rem;
   font-weight: 200;
   letter-spacing: 0.015em;
@@ -150,6 +159,11 @@ blockquote {
 }
 
 pre {
+  background-color: var(--code-bg);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  padding: 1rem;
   white-space: pre-wrap;
 }
 
