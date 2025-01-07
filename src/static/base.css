@@ -18,14 +18,15 @@
  */
 
 .theme_light {
-  --bg: hsl(0, 0%, 100%);
+  --bg: #faf9ff;
   --fg: #050805;
-  --sidebar-bg: #ffffffd3;
+  --sidebar-bg: #fbfaff;
   --sidebar-fg: #131c0d;
   --scrollbar: var(--sidebar-fg);
   --icons: var(--fg);
   --icons-hover: var(--sidebar-fg);
   --links: #3300ff;
+  --c-c: #5100e2;
   --code-c: #00ff51;
   --code-bg: var(--fg);
 }
@@ -39,6 +40,7 @@
   --icons: #737480;
   --icons-hover: #b7b9cc;
   --links: #00a6ff;
+  --c-c: #bb67b0;
   --code-c: #6dff9b;
   --code-bg: #282747;
 }
@@ -53,7 +55,8 @@
   --icons: var(--sidebar-fg);
   --icons-hover: var(--sidebar-active);
   --links: #1e00ff;
-  --code-c: #e100ff;
+  --c-c: #a30370;
+  --code-c: #000e60;
   --code-bg: #ffeded;
 }
 
@@ -124,4 +127,8 @@
 
 .TAR {
   text-align: right;
+}
+
+c {
+  color: var(--c-c);
 }
