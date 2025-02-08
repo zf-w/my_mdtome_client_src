@@ -19,12 +19,13 @@
 
 .theme_light {
   --bg: hsl(0, 0%, 100%);
+  --c-c: #5100e2;
   --fg: #050805;
   --sidebar-bg: #ffffffd3;
   --sidebar-fg: #131c0d;
   --scrollbar: var(--sidebar-fg);
-  --icons: var(--fg);
-  --icons-hover: var(--sidebar-fg);
+  --icon-c: var(--fg);
+  --icon-hover-c: #8622c4;
   --links: #3300ff;
   --code-c: #00ff51;
   --code-bg: var(--fg);
@@ -32,12 +33,13 @@
 
 .theme_navy {
   --bg: hsl(226, 22%, 12%);
+  --c-c: #bb67b0;
   --fg: #b8b5c5;
   --sidebar-bg: #282d3f;
   --sidebar-fg: #f3f4ff;
   --scrollbar: var(--sidebar-fg);
-  --icons: #737480;
-  --icons-hover: #b7b9cc;
+  --icon-c: #b3b4c1;
+  --icon-hover-c: #b7b9cc;
   --links: #00a6ff;
   --code-c: #6dff9b;
   --code-bg: #282747;
@@ -45,13 +47,14 @@
 
 .theme_honey {
   --bg: #f3fae8;
+  --c-c: #a30370;
   --fg: #600000;
   --sidebar-bg: #f5f2e8;
   --sidebar-fg: #690000;
   --sidebar-active: #a801a8;
   --scrollbar: var(--sidebar-fg);
-  --icons: var(--sidebar-fg);
-  --icons-hover: var(--sidebar-active);
+  --icon-c: var(--sidebar-fg);
+  --icon-hover-c: var(--sidebar-active);
   --links: #1e00ff;
   --code-c: #e100ff;
   --code-bg: #ffeded;
