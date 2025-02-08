@@ -167,6 +167,17 @@ pre {
   white-space: pre-wrap;
 }
 
+/* My "Bionic" */
+
+.bionic_on c {
+  color: var(--c-c);
+}
+
+.bionic_on #\$leftnav_bionic_btn {
+  color: var(--bg);
+  background-color: var(--sidebar-fg);
+}
+
 /* Components */
 #\$root_canvas {
   width: 100vw;
@@ -192,6 +203,21 @@ pre {
   z-index: 2;
 }
 
+.btn_text {
+  font-size: 0.72rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.icon {
+  color: var(--icon-c);
+}
+
+.icon:hover {
+  color: var(--icon-hover-c);
+}
+
 #\$menu_icon {
   display: inline-block;
   cursor: pointer;
@@ -199,22 +225,32 @@ pre {
   margin: 0px;
   aspect-ratio: 1;
   width: var(--icon-size);
-  color: var(--icons);
   -webkit-user-select: none;
   user-select: none;
 }
 
-#\$menu_icon:hover {
-  color: var(--icons-hover);
+.sidebar_on.sidebar_menu_on #\$menu_icon_on_part {
+  display: none;
 }
 
-#\$menu_icon > * {
-  width: 100%;
-  /* //35px; */
-  height: 14.3%;
-  background-color: currentColor;
-  margin: 17.1% 0;
-  transition: 0.4s;
+#\$menu_icon_off_part {
+  display: none;
+}
+
+.sidebar_on.sidebar_menu_on #\$menu_icon_off_part {
+  display: block;
+}
+
+.sidebar_on.sidebar_theme_on #\$theme_icon_on_part {
+  display: none;
+}
+
+#\$theme_icon_off_part {
+  display: none;
+}
+
+.sidebar_on.sidebar_theme_on #\$theme_icon_off_part {
+  display: block;
 }
 
 #\$btnbar {
@@ -229,6 +265,12 @@ pre {
   box-sizing: border-box;
   z-index: 4;
 }
+
+#\$theme_icon {
+  margin-top: 0.6rem;
+}
+
+/* Left Nav ---------------------------------------- */
 
 #\$left_nav {
   background-color: var(--sidebar-bg);
@@ -252,17 +294,28 @@ pre {
   z-index: 3;
 }
 
+#\$left_nav_menu_part {
+  display: none;
+}
+
+.sidebar_menu_on #\$left_nav_menu_part {
+  display: block;
+}
+
+#\$left_nav_theme_part {
+  display: none;
+}
+
+.sidebar_theme_on #\$left_nav_theme_part {
+  display: block;
+}
+
 #\$nav_root a {
   color: var(--sidebar-fg);
   display: block;
   font-size: var(--sidebar-font-size);
   padding: 0.25rem 0 0.25rem 0;
 }
-
-/* #\$left_nav .left_nav_title {
-  padding-left: 0.3rem;
-  width: calc(100% - 20px);
-} */
 
 #\$left_nav h4 {
   font-size: var(--sidebar-title-size);
@@ -285,9 +338,7 @@ pre {
 }
 
 #\$nav_root,
-#\$nav_theme,
-#\$nav_lang,
-#\$nav_auth {
+.left_nav_group {
   padding-left: 4%;
   padding-top: 2%;
   padding-bottom: 2%;
@@ -357,6 +408,8 @@ pre {
 .sidebar_on #\$menu_icon > #\$menu_bar3 {
   transform: translateY(-219%) rotate(45deg);
 }
+
+/* End Nav ------------------------*/
 
 #\$end_nav {
   font-size: 1.5rem;
