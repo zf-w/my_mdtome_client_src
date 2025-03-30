@@ -133,6 +133,7 @@ p {
   font-size: var(--p-font-size);
   font-weight: 100;
   letter-spacing: 0.015em;
+  line-height: 1.6rem;
   margin-top: 1.5rem;
   margin-right: auto;
   margin-bottom: 0.75rem;
