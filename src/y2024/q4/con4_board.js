@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as con4 from "con4";
+import * as con4 from "./con4.js";
 
 function make_p0_string(x, y, char_i) {
   return `<svg

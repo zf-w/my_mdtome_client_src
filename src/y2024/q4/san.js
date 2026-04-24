@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Three from "three";
+import * as Three from "./three.js";
 
 /**
  * @param {HTMLElement} SceneInfo.html HTML Element

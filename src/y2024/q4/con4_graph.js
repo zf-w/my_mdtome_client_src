@@ -17,12 +17,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as con4 from "con4";
-import * as con4_game from "con4_game";
-import * as con4_graph_util from "./graph/util.js";
-import * as graph_ctrl_mod from "graph_ctrl";
-import * as three from "three";
-import * as san from "san";
+import * as con4 from "./con4.js";
+import * as con4_game from "con4_game.js";
+import * as con4_graph_util from "con4_graph_util.js";
+import * as graph_ctrl_mod from "../../y2025/q1/graph_ctrl.js";
+import * as three from "./three.js";
+import * as san from "./san.js";
 
 /**
  * @typedef {Object} GameGraphNode

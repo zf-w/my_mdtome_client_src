@@ -17,8 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as con4 from "con4";
-import * as con4_board from "con4_board";
+import * as con4 from "./con4.js";
+import * as con4_board from "./con4_board.js";
 
 const HIDDEN_CLASSNAME = "hidden";
 const LOADING_CLASSNAME = "con4_game_loading";
