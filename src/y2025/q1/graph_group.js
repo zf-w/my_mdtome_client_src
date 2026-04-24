@@ -17,8 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as three from "three";
-import * as san from "san";
+import * as three from "../../y2024/q4/three.js";
+import * as san from "../../y2024/q4/san.js";
 
 /**
  *

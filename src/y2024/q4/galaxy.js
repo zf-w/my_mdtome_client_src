@@ -17,8 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Three from "three";
-import { SceneInfo } from "san";
+import * as Three from "./three.js";
+import { SceneInfo } from "./san.js";
 
 function generate_galaxy_object(parameters) {
   const geometry = new Three.BufferGeometry();
