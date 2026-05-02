@@ -20,6 +20,26 @@
 
 import * as Three from "./three.js";
 
+// Consts
+
+const WINDOW_EVENT_FULLSCREEN_CHANGE_KEY = "fullscreenchange";
+const WINDOW_EVENT_RESIZE_KEY = "resize";
+const WINDOW_EVENT_SCROLL_KEY = "scroll";
+
+const DOM_ELEM_EVENT_DOUBLE_CLICK_KEY = "dbclick";
+
+const DOM_ELEM_INSERT_POS_AFTER_BEGIN_KEY = "afterbegin";
+
+const HTML_TAG_CANVAS_NAME = "canvas";
+
+// Configs
+
+const MAX_FRAME_NUMBER_PER_SECOND = 60;
+const MIN_FRAME_DURATION = 1000 / MAX_FRAME_NUMBER_PER_SECOND;
+
+const ROOT_CANVAS_ID = "$root_canvas";
+const ROOT_CANVAS_FULLSCREEN_CLASSNAME = "fullscreen_canvas";
+
 /**
  * @param {HTMLElement} SceneInfo.html HTML Element
  */
@@ -27,7 +47,9 @@ export class SceneInfo {
   scene = new Three.Scene(); // Scene
   camera = new Three.PerspectiveCamera(); // PerspectiveCamera
   update_fn = undefined;
-  first = true;
+  first_render_flag = true;
+
+  elem_bounding_box_info = undefined;
   /**
    *
    * @param {HTMLElement} html
@@ -40,6 +62,8 @@ export class SceneInfo {
      * @type {HTMLElement}
      */
     this.html = html;
+    this.elem_bounding_box_info = html.getBoundingClientRect();
+
     /**
      * @type {Three.Scene}
      */
@@ -57,7 +81,7 @@ export class SceneInfo {
     const camera = this.camera;
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    this.first = false;
+    this.first_render_flag = false;
   }
 
   update() {
@@ -74,11 +98,14 @@ export class San {
   empty_camera = new Three.PerspectiveCamera();
   total = 0;
 
+  root_canvas_mut_ref = undefined;
+  root_canvas_bounding_box_info = undefined;
+
   constructor() {
     /**
      * @type {HTMLCanvasElement | undefined}
      */
-    this.canvas_mut_ref = undefined;
+    this.root_canvas_mut_ref = undefined;
     /**
      * @type {{canvas_ref: HTMLCanvasElement, scene_idxs_list: number[], renderer: Three.WebGLRenderer}}
      */
@@ -89,50 +116,151 @@ export class San {
     this.scene_info_list = [];
   }
 
+  handle_resize() {
+    const renderer = this.renderer;
+
+    // Update sizes
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    // Update renderer
+    if (renderer != undefined) {
+      renderer.setSize(width, height, false);
+
+      for (let scene_i = 0; scene_i < this.scene_info_list.length; ++scene_i) {
+        this.scene_info_list[scene_i].first_render_flag = true;
+      }
+      // renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    }
+    if (this.fullscreen_state) {
+      this.fullscreen_state.renderer.setSize(width, height, false);
+    }
+  }
+
+  handle_scroll() {
+    this.root_canvas_bounding_box_info = this.root_canvas_mut_ref.getBoundingClientRect();
+    for (let scene_i = 0; scene_i < this.scene_info_list.length; ++scene_i) {
+        const scene_info_mut_ref = this.scene_info_list[scene_i];
+        scene_info_mut_ref.elem_bounding_box_info = scene_info_mut_ref.html.getBoundingClientRect();
+    }
+  }
+
+  /**
+   *
+   * @param {HTMLCanvasElement} root_canvas_mut_ref
+   * @returns
+   */
+  init(root_canvas_mut_ref) {
+
+    if (this.renderer != undefined) {
+      return;
+    }
+
+    this.root_canvas_mut_ref = root_canvas_mut_ref;
+    this.root_canvas_bounding_box_info = root_canvas_mut_ref.getBoundingClientRect();
+
+    window.addEventListener(WINDOW_EVENT_RESIZE_KEY, () => {
+      this.handle_resize();
+      this.handle_scroll();
+    });
+
+    window.addEventListener(WINDOW_EVENT_SCROLL_KEY, () => {
+        this.handle_scroll();
+    });
+
+
+    this.renderer = new Three.WebGLRenderer({
+        alpha: true,
+        canvas: root_canvas_mut_ref,
+        powerPreference: "low-power"
+    });
+    // this.renderer.autoClear = true;
+    this.handle_resize();
+    const renderer = this.renderer;
+    renderer.setScissorTest(true);
+
+    let last_frame_time = performance.now();
+    let frame_count = 0
+    let frame_diff_sum = 0
+
+    const tick = () => {
+
+        const curr_frame_time = performance.now()
+
+        const time_since_last_frame = curr_frame_time - last_frame_time;
+
+        if (time_since_last_frame < MIN_FRAME_DURATION) {
+            window.requestAnimationFrame(tick);
+            return;
+        }
+
+        frame_diff_sum += time_since_last_frame;
+
+        last_frame_time = curr_frame_time;
+        frame_count += 1
+      // Call tick again on the next frame
+      if (this.fullscreen_state) {
+        // console.log("[San] fullscreen rendering");
+        this.fullscreen_render();
+      } else {
+        this.render();
+      }
+
+      window.requestAnimationFrame(tick);
+    };
+
+    tick();
+  }
+
   /**
    * @param {Three.WebGLRenderer} renderer
    * @param {SceneInfo} scene_info
    * @returns {void}
    */
   render_scene_info(renderer, scene_info) {
-    const { left, right, top, bottom, width, height } =
-      scene_info.html.getBoundingClientRect();
+    const { 
+        left: app_canvas_left_pos, 
+        right: app_canvas_right_pos, 
+        top: app_canvas_top_pos, 
+        bottom: app_canvas_bottom_pos, 
+        width: app_canvas_width, 
+        height: app_canvas_height 
+    } = scene_info.elem_bounding_box_info;
 
-    let parent = this.canvas_mut_ref.getBoundingClientRect();
-    const tHeight = parent.height;
-    const tWidth = parent.width;
-    if (bottom < 0 || top > tHeight || right < 0 || left > tWidth) {
+    const root_canvas_bounding_box_info = this.root_canvas_bounding_box_info;
+    const root_canvas_height = root_canvas_bounding_box_info.height;
+    const root_canvas_width = root_canvas_bounding_box_info.width;
+
+    if (app_canvas_bottom_pos < 0 || 
+        app_canvas_top_pos > root_canvas_height || 
+        app_canvas_right_pos < 0 || 
+        app_canvas_left_pos > root_canvas_width
+    ) {
       return;
     }
-    // console.log(left, right, top, bottom, height, width);
-    //
-    const yTop = tHeight - bottom;
-    // console.log(yTop);
-    if (scene_info.first == true) {
-      scene_info.update_camera(width, height);
+
+    const app_canvas_abs_top_pos = root_canvas_height - app_canvas_bottom_pos;
+    
+    if (scene_info.first_render_flag == true) {
+      scene_info.update_camera(app_canvas_width, app_canvas_height);
     }
 
     if (scene_info.update) {
       scene_info.update();
     }
 
-    // this.renderer?.setScissorTest(true)
-    // if (this.fullscreen_state == undefined) {
-    renderer.setScissor(left, yTop, width + 1, height + 1);
-    //this.renderer.setViewport(0,0,100,100);
-    renderer.setViewport(left, yTop, width + 1, height + 1);
-    // }
+    renderer.setScissor(app_canvas_left_pos, app_canvas_abs_top_pos, app_canvas_width + 1, app_canvas_height + 1);
 
-    //console.log(scene_info.scene.children.length);
+    renderer.setViewport(app_canvas_left_pos, app_canvas_abs_top_pos, app_canvas_width + 1, app_canvas_height + 1);
+
     renderer.render(scene_info.scene, scene_info.camera);
-    // this.renderer?.clear()
-    // this.renderer?.setScissorTest(false)
   }
 
   render() {
     if (this.renderer == undefined) {
       return;
     }
+
     if (this.dirty) {
       this.renderer.setScissor(0, 0, window.innerWidth, window.innerHeight);
       this.renderer.render(this.empty_scene, this.empty_camera);
@@ -179,116 +307,53 @@ export class San {
     }
   }
 
-  handle_resize() {
-    const renderer = this.renderer;
-
-    // Update sizes
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-
-    // Update renderer
-    if (renderer != undefined) {
-      renderer.setSize(width, height, false);
-
-      for (let i = 0; i < this.scene_info_list.length; ++i) {
-        this.scene_info_list[i].first = true;
-      }
-      // renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    }
-    if (this.fullscreen_state) {
-      this.fullscreen_state.renderer.setSize(width, height, false);
-    }
-  }
-
-  /**
-   *
-   * @param {HTMLCanvasElement} canvas_mut_ref
-   * @returns
-   */
-  init(canvas_mut_ref) {
-    window.addEventListener("resize", () => {
-      this.handle_resize();
-    });
-    if (this.renderer != undefined) {
-      return;
-    }
-    this.canvas_mut_ref = canvas_mut_ref;
-    this.renderer = new Three.WebGLRenderer({
-      canvas: canvas_mut_ref,
-      antialias: true,
-      alpha: true,
-    });
-    // this.renderer.autoClear = true;
-    this.handle_resize();
-    const renderer = this.renderer;
-    renderer.setScissorTest(true);
-    // const updator = this.updator
-
-    // AddGraphSet(scene, updator)
-    const tick = () => {
-      // Call tick again on the next frame
-      if (this.fullscreen_state) {
-        // console.log("[San] fullscreen rendering");
-        this.fullscreen_render();
-      } else {
-        this.render();
-      }
-
-      window.requestAnimationFrame(tick);
-    };
-
-    tick();
-  }
-
   /**
    *
    * @param {SceneInfo} scene_info
    * @returns {number} added scene's index
    */
   add(scene_info) {
-    // console.log('Adding')
-
     this.scene_info_list.push(scene_info);
     const index = this.total;
     this.total += 1;
     return index;
   }
+
   /**
    *
    * @param {number[]} scene_idxs_list
-   * @param {HTMLElement} mod_root_elem
+   * @param {HTMLElement} app_root_elem
    * @returns
    */
-  prepare_fullscreen(scene_idxs_list, mod_root_elem) {
+  prepare_fullscreen(scene_idxs_list, app_root_elem) {
     let is_fullscreen_flag = false;
     let san_exiting_full_callback = undefined;
     let fullscreen_change_callback = () => {
       if (is_fullscreen_flag == false) {
         san_exiting_full_callback = this.go_fullscreen(
           scene_idxs_list,
-          mod_root_elem
+          app_root_elem
         );
 
         is_fullscreen_flag = true;
 
-        // console.log("[San:change_callback] Fullscreen done");
       } else {
-        document.removeEventListener(
-          "fullscreenchange",
+        window.removeEventListener(
+          WINDOW_EVENT_FULLSCREEN_CHANGE_KEY,
           fullscreen_change_callback
         );
         san_exiting_full_callback();
         san_exiting_full_callback = undefined;
 
-        document.exitFullscreen().catch((e) => {
+        window.exitFullscreen().catch((e) => {
           console.log("Using 'esc' to exit fullscreen.");
         });
 
         is_fullscreen_flag = false;
-        // console.log("[San:change_callback] Removing");
       }
     };
-    mod_root_elem.addEventListener("dblclick", (event) => {
+
+    app_root_elem.addEventListener(DOM_ELEM_EVENT_DOUBLE_CLICK_KEY, (event) => {
       event.preventDefault();
       if (event.ctrlKey != true) {
         return;
@@ -301,9 +366,9 @@ export class San {
       } else {
         // console.log(curr_scene_info_i, canvas_elem);
 
-        mod_root_elem.requestFullscreen();
-        document.addEventListener(
-          "fullscreenchange",
+        app_root_elem.requestFullscreen();
+        window.addEventListener(
+          WINDOW_EVENT_FULLSCREEN_CHANGE_KEY,
           fullscreen_change_callback
         );
       }
@@ -313,26 +378,27 @@ export class San {
   /**
    * @private
    * @param {number[]} scene_idxs_list
-   * @param {HTMLElement} mod_root_elem
+   * @param {HTMLElement} app_root_elem
    * @returns
    */
-  go_fullscreen(scene_idxs_list, mod_root_elem) {
+  go_fullscreen(scene_idxs_list, app_root_elem) {
     // console.log("[San] Making fullscreen");
-    const canvas_elem = document.createElement("canvas");
-    mod_root_elem.insertAdjacentElement("afterbegin", canvas_elem);
-    canvas_elem.classList.toggle("fullscreen_canvas");
+    const canvas_elem = document.createElement(HTML_TAG_CANVAS_NAME);
+    app_root_elem.insertAdjacentElement(DOM_ELEM_INSERT_POS_AFTER_BEGIN_KEY, canvas_elem);
+    canvas_elem.classList.toggle(ROOT_CANVAS_FULLSCREEN_CLASSNAME);
 
     for (let i = 0; i < scene_idxs_list.length; ++i) {
       const scene_i = scene_idxs_list[i];
-      this.scene_info_list[scene_i].first = true;
+      this.scene_info_list[scene_i].first_render_flag = true;
     }
     let width = window.innerWidth;
     let height = window.innerHeight;
+
     const renderer = new Three.WebGLRenderer({
       canvas: canvas_elem,
-      antialias: true,
       alpha: true,
     });
+
     renderer.setScissorTest(true);
     renderer.setSize(width, height, false);
     this.fullscreen_state = {
@@ -341,7 +407,6 @@ export class San {
       canvas_ref: canvas_elem,
     };
     return () => {
-      //   console.log("[San] Disposing fullscreen renderer");
       const fullscreen_renderer = this.fullscreen_state.renderer;
       fullscreen_renderer.render(this.empty_scene, this.empty_camera);
       fullscreen_renderer.dispose();
@@ -353,7 +418,7 @@ export class San {
   dispose() {
     this.renderer.dispose();
     this.renderer = undefined;
-    this.canvas_mut_ref = undefined;
+    this.root_canvas_mut_ref = undefined;
   }
 }
 
@@ -390,8 +455,6 @@ export function set_orbit_ctrl_from_param(orbit_ctrl, orbit_ctrl_param) {
     }
   }
 }
-
-const ROOT_CANVAS_ID = "$root_canvas";
 
 try {
   const root_canvas = document.getElementById(ROOT_CANVAS_ID);
