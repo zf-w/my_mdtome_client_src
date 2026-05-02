@@ -168,17 +168,6 @@ pre {
   white-space: pre-wrap;
 }
 
-/* My "Bionic" */
-
-.bionic_on c {
-  color: var(--c-c);
-}
-
-.bionic_on #\$leftnav_bionic_btn {
-  color: var(--bg);
-  background-color: var(--sidebar-fg);
-}
-
 /* Components */
 #\$root_canvas {
   width: 100vw;
@@ -213,6 +202,7 @@ pre {
 
 .icon {
   color: var(--icon-c);
+  margin: 0.8rem 0;
 }
 
 .icon:hover {
@@ -269,6 +259,10 @@ pre {
 
 #\$theme_icon {
   margin-top: 0.6rem;
+}
+
+#lang_icon_id {
+  color: var(--icon-c)
 }
 
 /* Left Nav ---------------------------------------- */

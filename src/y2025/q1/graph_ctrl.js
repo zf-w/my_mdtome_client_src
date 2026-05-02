@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Three from "three";
+import * as Three from "../../y2024/q4/three.js";
 
 const VERT_SHADER = /* glsl */ `
 uniform float uPixelRatio;

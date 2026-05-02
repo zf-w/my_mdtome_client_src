@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as Three from "three";
+import * as Three from "./three.js";
 
 export function build_index_and_node_edge_adj_from_actions_map(actions) {
   let ans_index = [];

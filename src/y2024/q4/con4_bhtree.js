@@ -17,14 +17,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as graph_ctrl_mod from "../../graph/ctrl.js";
-import * as three_mod from "../../three.js";
-import * as san_mod from "../../san.js";
-import { BarnesHutTree, BarnesHutTreeSer } from "../../bhtree.js";
-import { Con4Game } from "../con4.js";
-import { GameGraph } from "../graph.js";
-import * as con4_graph_util_mod from "../graph/util.js";
-import { render_game_board_with_actions_list } from "../board.js";
+import * as graph_ctrl_mod from "../../y2025/q1/graph_ctrl.js";
+import * as three_mod from "./three.js";
+import * as san_mod from "./san.js";
+import { BarnesHutTree, BarnesHutTreeSer } from "./bhtree.js";
+import { Con4Game } from "./con4.js";
+import { GameGraph } from "./con4_graph.js";
+import * as con4_graph_util_mod from "./con4_graph_util.js";
+import { render_game_board_with_actions_list } from "./con4_board.js";
 
 const EVENT_MOUSE_OVER_NAME_STRING = "mouseover";
 const EVENT_MOUSE_LEFT_NAME_STRING = "mouseleave";
